@@ -5,9 +5,15 @@ public class CarController : MonoBehaviour
 {
     [SerializeField] WheelCollider[] wheels;
     [SerializeField] private GameObject[] wheelMesh;
+    [SerializeField] private GameObject centerOfMass;
     [SerializeField] private float torque;
     [SerializeField] private float steeringMax;
-    
+
+    private void Awake()
+    {
+        GetComponent<Rigidbody>().centerOfMass = centerOfMass.transform.localPosition;
+    }
+
     private void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.W))
