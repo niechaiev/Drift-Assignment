@@ -8,6 +8,8 @@ public class CarController : MonoBehaviour
     [SerializeField] private GameObject centerOfMass;
     [SerializeField] private float torque;
     [SerializeField] private float steeringMax;
+    [SerializeField] private float brakePower;
+    
 
     private void Awake()
     {
@@ -18,10 +20,7 @@ public class CarController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.W))
         {
-            for (var i = 0; i < wheels.Length; i++)
-            {
-                wheels[i].motorTorque = torque;
-            }
+            wheels[2].motorTorque = wheels[3].motorTorque = torque;
         }
         else
         {
@@ -44,6 +43,15 @@ public class CarController : MonoBehaviour
             {
                 wheels[i].steerAngle = 0;
             }
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = brakePower;
+        }
+        else
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
         }
 
         AnimateWheels();
