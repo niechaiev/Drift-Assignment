@@ -7,7 +7,7 @@ public class Score : MonoBehaviour
     private int score;
     private CarController carController;
     
-    private void Awake()
+    private void Start()
     {
         carController = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
     }

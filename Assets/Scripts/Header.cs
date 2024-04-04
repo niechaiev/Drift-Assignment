@@ -16,8 +16,16 @@ public class Header : MonoBehaviour
     private void Awake()
     {
         backButton.onClick.AddListener(() => mainMenu.gameObject.SetActive(true));
-        textGold.SetText($"{PlayerPrefs.GetInt("gold", 0)} \u2666");
-        textCash.SetText($"{PlayerPrefs.GetInt("cash", 0)} $");
+
+        Player.Gold = PlayerPrefs.GetInt("gold", 0);
+        Player.Cash = PlayerPrefs.GetInt("cash", 0);
+        var ownedCars = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
+        if (ownedCars.Length == 1) ownedCars[0] = "0";
+        Player.OwnedCars = Array.ConvertAll(ownedCars, int.Parse);
+        Player.SelectedCar = PlayerPrefs.GetInt("selectedCar", 0);
+        
+        textGold.SetText($"{Player.Gold} \u2666");
+        textCash.SetText($"{Player.Cash} $");
     }
 
     public void ShowButtonBack(bool state)
