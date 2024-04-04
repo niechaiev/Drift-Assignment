@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     private GameObject cameraLocation;
     private float speed;
     
-    private void Awake()
+    private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");

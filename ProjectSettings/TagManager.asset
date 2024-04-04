@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - CameraLocation
+  - SpawnPoints
+  - Spawn
   layers:
   - Default
   - TransparentFX

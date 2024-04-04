@@ -16,6 +16,8 @@ public class Header : MonoBehaviour
     private void Awake()
     {
         backButton.onClick.AddListener(() => mainMenu.gameObject.SetActive(true));
+        textGold.SetText($"{PlayerPrefs.GetInt("gold", 0)} \u2666");
+        textCash.SetText($"{PlayerPrefs.GetInt("cash", 0)} $");
     }
 
     public void ShowButtonBack(bool state)
