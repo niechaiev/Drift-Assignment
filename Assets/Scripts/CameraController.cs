@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private float speed;
     [SerializeField] private float speedMultiplier;
-    
     private GameObject player;
     private GameObject cameraLocation;
+    private float speed;
     
     private void Awake()
     {
