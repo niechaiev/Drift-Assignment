@@ -1,20 +1,24 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class Speedometer : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
-    private GameObject player;
-    private Rigidbody playerRb;
+    private Rigidbody carRigidBody;
     
-    private void Awake()
+    public void Setup(Rigidbody carRigidBody)
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerRb = player.GetComponent<Rigidbody>();
+        this.carRigidBody = carRigidBody;
+        StartCoroutine(UpdateSpeed());
     }
 
-    private void FixedUpdate()
+    private IEnumerator UpdateSpeed()
     {
-        text.SetText($"{Mathf.RoundToInt(playerRb.velocity.magnitude * 3.6f)} KPH");
+        while (true)
+        {
+            text.SetText($"{Mathf.RoundToInt(carRigidBody.velocity.magnitude * 3.6f)} KPH");
+            yield return new WaitForFixedUpdate();
+        }
     }
 }

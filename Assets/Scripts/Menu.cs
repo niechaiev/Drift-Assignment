@@ -18,7 +18,12 @@ public class Menu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            canvasGroup.ShowCanvasGroup(!canvasGroup.blocksRaycasts);
+            Show();
         }
+    }
+
+    public void Show()
+    {
+        canvasGroup.ShowCanvasGroup(!canvasGroup.blocksRaycasts);
     }
 }

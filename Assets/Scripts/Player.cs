@@ -2,15 +2,25 @@
 using UnityEngine;
 
 public static class Player
-{ 
+{
+    private static string name;
     private static int gold;
     private static int cash;
     private static int[] ownedCars;
     private static int selectedCar;
     
+    public static string Name => name;
     public static int Gold => gold;
 
-    public static int Cash => cash;
+    public static int Cash
+    {
+        get => cash;
+        set
+        {
+            cash = value;
+            PlayerPrefs.SetInt("cash", value);
+        }
+    }
 
     public static int[] OwnedCars => ownedCars;
 
@@ -26,6 +36,7 @@ public static class Player
 
     static Player()
     {
+        name = PlayerPrefs.GetString("name", string.Empty);
         gold = PlayerPrefs.GetInt("gold", 0);
         cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);

@@ -1,23 +1,29 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class Score : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
-    private int score;
+    private int count;
     private CarController carController;
-    
-    private void Start()
+    public int Count => count;
+
+    public void Setup(CarController carController)
     {
-        carController = GameObject.FindGameObjectWithTag("Player").GetComponent<CarController>();
+        this.carController = carController;
+        StartCoroutine(CountScore());
     }
 
-    private void FixedUpdate()
+    private IEnumerator CountScore()
     {
-        if (carController.IsDrifting)
+        while (true)
         {
-            text.SetText($"Score: {++score}");
+            if (carController.IsDrifting)
+            {
+                text.SetText($"Score: {++count}");
+            }
+            yield return new WaitForFixedUpdate();
         }
-            
     }
 }

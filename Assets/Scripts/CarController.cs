@@ -128,4 +128,12 @@ public class CarController : MonoBehaviour
             wheels[2].sidewaysFriction = wheels[3].sidewaysFriction = sidewaysFriction;
         }
     }
+
+    private void OnDisable()
+    {
+        foreach (var wheel in wheels)
+        {
+            wheel.motorTorque = 0;
+        }
+    }
 }
