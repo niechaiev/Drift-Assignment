@@ -9,6 +9,11 @@ public class CarShop : Page
     [SerializeField] private Button buyButton;
     private CarInfo previewedCarInfo;
 
+    private void Awake()
+    {
+        buyButton.onClick.AddListener(BuyCar);
+    }
+
     public void SetPreviewedCarInfo(CarInfo carInfo)
     {
         previewedCarInfo = carInfo;
@@ -32,8 +37,14 @@ public class CarShop : Page
             priceText.SetText(priceText.text + " $");
             buyButton.interactable = Player.Cash >= carInfo.Price;
         }
-        
+    }
 
+    private void BuyCar()
+    {
+        Player.OwnedCarsAdd(previewedCarInfo.Index);
+        Player.Cash -= previewedCarInfo.Price;
+        priceText.SetText("Owned");
+        buyButton.interactable = false;
     }
 
     protected override void OnEnable()

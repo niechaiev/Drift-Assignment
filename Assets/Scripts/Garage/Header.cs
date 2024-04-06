@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +18,9 @@ public class Header : MonoBehaviour
         
         textGold.SetText($"{Player.Gold} \u2666");
         textCash.SetText($"{Player.Cash} $");
+        
+        Player.OnGoldChange = gold => textGold.SetText($"{gold} $");
+        Player.OnCashChange = cash => textCash.SetText($"{cash} $");
     }
 
     public void ShowButtonBack(bool state)

@@ -30,5 +30,7 @@ public class Game : MonoBehaviour
         Player.Cash += score.Count;
         menu.Show();
         carController.enabled = false;
+        score.enabled = false;
+        timer.enabled = false;
     }
 }

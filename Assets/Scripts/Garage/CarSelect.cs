@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,13 +36,13 @@ public class CarSelect : MonoBehaviour
     
     private void SelectNextCar()
     {
-        if (Player.SelectedCar == Player.OwnedCars.Length - 1)
+        if (Player.SelectedCar == Player.OwnedCars.Count - 1)
         {
             Player.SelectedCar = Player.OwnedCars[0];
         }
         else
         {
-            var index = Array.FindIndex(Player.OwnedCars, i => i == Player.SelectedCar);
+            var index = Player.OwnedCars.First(i => i == Player.SelectedCar);
             Player.SelectedCar = Player.OwnedCars[++index];
         }
         
@@ -53,11 +53,11 @@ public class CarSelect : MonoBehaviour
     {
         if (Player.SelectedCar == Player.OwnedCars[0])
         {
-            Player.SelectedCar = Player.OwnedCars.Length - 1;
+            Player.SelectedCar = Player.OwnedCars.Count - 1;
         }
         else
         {
-            var index = Array.FindIndex(Player.OwnedCars, i => i == Player.SelectedCar);
+            var index = Player.OwnedCars.First(i => i == Player.SelectedCar);
             Player.SelectedCar = Player.OwnedCars[--index];
         }
 
