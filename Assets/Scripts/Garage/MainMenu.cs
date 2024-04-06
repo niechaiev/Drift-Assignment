@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     
     private void Awake()
     {
+        Application.targetFrameRate = 60;
         selectLevelButton.onClick.AddListener(OpenLevelSelect);
     }
 
