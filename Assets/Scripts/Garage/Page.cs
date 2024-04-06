@@ -2,7 +2,7 @@
 
 public class Page : MonoBehaviour
 {
-    [SerializeField] private Header header; 
+    [SerializeField] protected Header header; 
     
     protected virtual void OnEnable()
     {

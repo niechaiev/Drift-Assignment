@@ -12,7 +12,16 @@ public static class Player
     private static int selectedCar;
     public static Action<int> OnGoldChange;
     public static Action<int> OnCashChange;
-    public static string Name => name;
+    public static string Name
+    {
+        get => name;
+        set
+        {
+            name = value;
+            PlayerPrefs.SetString("username", value);
+        }
+    }
+
     public static int Gold => gold;
 
     public static int Cash
@@ -46,7 +55,7 @@ public static class Player
 
     static Player()
     {
-        name = PlayerPrefs.GetString("name", string.Empty);
+        name = PlayerPrefs.GetString("username", string.Empty);
         gold = PlayerPrefs.GetInt("gold", 0);
         cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);

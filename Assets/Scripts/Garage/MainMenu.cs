@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private LevelSelect levelSelect;
     [SerializeField] private CarShop carShop;
     [SerializeField] private CarSelect carSelect;
+    [SerializeField] private Settings settings;
     
     
     private void Awake()
@@ -19,6 +20,7 @@ public class MainMenu : MonoBehaviour
         Application.targetFrameRate = 165;
         selectLevelButton.onClick.AddListener(OpenLevelSelect);
         carShopButton.onClick.AddListener(OpenCarShop);
+        settingsButton.onClick.AddListener(OpenSettings);
     }
 
     private void OpenLevelSelect()
@@ -34,6 +36,13 @@ public class MainMenu : MonoBehaviour
         gameObject.SetActive(false);
         carSelect.SetModePreviewCar();
         
+    }
+
+    private void OpenSettings()
+    {
+        gameObject.SetActive(false);
+        carSelect.gameObject.SetActive(false);
+        settings.gameObject.SetActive(true);
     }
 
     private void OnEnable()
