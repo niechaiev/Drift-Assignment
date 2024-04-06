@@ -4,13 +4,13 @@ public class Page : MonoBehaviour
 {
     [SerializeField] private Header header; 
     
-    protected void OnEnable()
+    protected virtual void OnEnable()
     {
         header.ShowButtonBack(true);
         header.BackButton.onClick.AddListener(Close);
     }
 
-    protected void OnDisable()
+    protected virtual void OnDisable()
     {
         header.ShowButtonBack(false);
         header.BackButton.onClick.RemoveListener(Close);

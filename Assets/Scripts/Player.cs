@@ -24,7 +24,7 @@ public static class Player
         }
     }
 
-    public static void Load()
+    static Player()
     {
         gold = PlayerPrefs.GetInt("gold", 0);
         cash = PlayerPrefs.GetInt("cash", 0);

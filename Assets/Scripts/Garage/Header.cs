@@ -17,8 +17,6 @@ public class Header : MonoBehaviour
     {
         backButton.onClick.AddListener(() => mainMenu.gameObject.SetActive(true));
         
-        Player.Load();
-        
         textGold.SetText($"{Player.Gold} \u2666");
         textCash.SetText($"{Player.Cash} $");
     }

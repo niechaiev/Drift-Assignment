@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,53 +10,96 @@ public class CarSelect : MonoBehaviour
     [SerializeField] private Button leftButton;
     [SerializeField] private Button rightButton;
     [SerializeField] private TMP_Text nameText;
+    [SerializeField] private CarShop carShop;
+    
     private GameObject car;
+    private int previewedCar;
 
-    private void Awake()
+    public void SetModeSelectCar()
     {
-        rightButton.onClick.AddListener(NextCar);
-        leftButton.onClick.AddListener(PreviousCar);
+        rightButton.onClick.RemoveListener(PreviewNextCar);
+        leftButton.onClick.RemoveListener(PreviewPreviousCar);
+        rightButton.onClick.AddListener(SelectNextCar);
+        leftButton.onClick.AddListener(SelectPreviousCar);
+        ChangeCar(Player.SelectedCar);
+        previewedCar = Player.SelectedCar;
     }
 
-    private void Start()
+    public void SetModePreviewCar()
     {
-        ChangeCar();
+        rightButton.onClick.RemoveListener(SelectNextCar);
+        leftButton.onClick.RemoveListener(SelectPreviousCar);
+        rightButton.onClick.AddListener(PreviewNextCar);
+        leftButton.onClick.AddListener(PreviewPreviousCar);
+        
     }
-
-    private void NextCar()
+    
+    private void SelectNextCar()
     {
-        if (Player.SelectedCar == cars.carPrefabs.Length - 1)
+        if (Player.SelectedCar == Player.OwnedCars.Length - 1)
         {
-            Player.SelectedCar = 0;
+            Player.SelectedCar = Player.OwnedCars[0];
         }
         else
         {
-            Player.SelectedCar += 1;
+            var index = Array.FindIndex(Player.OwnedCars, i => i == Player.SelectedCar);
+            Player.SelectedCar = Player.OwnedCars[++index];
         }
         
-        ChangeCar();
+        ChangeCar(Player.SelectedCar);
     }
-
-    private void PreviousCar()
+    
+    private void SelectPreviousCar()
     {
-        if (Player.SelectedCar == 0)
+        if (Player.SelectedCar == Player.OwnedCars[0])
         {
-            Player.SelectedCar = cars.carPrefabs.Length - 1;
+            Player.SelectedCar = Player.OwnedCars.Length - 1;
         }
         else
         {
-            Player.SelectedCar -= 1;
+            var index = Array.FindIndex(Player.OwnedCars, i => i == Player.SelectedCar);
+            Player.SelectedCar = Player.OwnedCars[--index];
         }
 
-        ChangeCar();
+        ChangeCar(Player.SelectedCar);
     }
 
-    private void ChangeCar()
+
+    private void PreviewNextCar()
+    {
+        if (previewedCar == cars.carPrefabs.Length - 1)
+        {
+            previewedCar = 0;
+        }
+        else
+        {
+            previewedCar += 1;
+        }
+        
+        ChangeCar(previewedCar);
+    }
+
+    private void PreviewPreviousCar()
+    {
+        if (previewedCar == 0)
+        {
+            previewedCar = cars.carPrefabs.Length - 1;
+        }
+        else
+        {
+            previewedCar -= 1;
+        }
+
+        ChangeCar(previewedCar);
+    }
+
+    private void ChangeCar(int selectedCar)
     {
         if (car != null)
             Destroy(car);
-        car = Instantiate(cars.carPrefabs[Player.SelectedCar], spawn);
-        nameText.SetText(car.gameObject.name);
-
+        car = Instantiate(cars.carPrefabs[selectedCar], spawn);
+        var carInfo = car.GetComponent<CarInfo>();
+        nameText.SetText(carInfo.Name);
+        carShop.SetPreviewedCarInfo(carInfo);
     }
 }
