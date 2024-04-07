@@ -514,7 +514,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 4bbe9d8c73e1a854e9f10a08674157a0, type: 2}
-  - {fileID: 2100000, guid: 384e5546512b5f543b3f4d607c4e4882, type: 2}
+  - {fileID: 2100000, guid: 673e1721eefdffa4d83876e9b97789f3, type: 2}
   - {fileID: 2100000, guid: bd10ab4110f26c14da17c02c3798fbf8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -1005,7 +1005,6 @@ GameObject:
   - component: {fileID: 412298}
   - component: {fileID: 1169528624594097703}
   - component: {fileID: 4400574205507982326}
-  - component: {fileID: 6111686193762178710}
   m_Layer: 0
   m_Name: bmw
   m_TagString: Player
@@ -1095,20 +1094,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6111686193762178710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 166318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f05a9d0e2f534bd29039a82ac249c141, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Name: BMW
-  Price: 0
 --- !u!1 &175804
 GameObject:
   m_ObjectHideFlags: 0

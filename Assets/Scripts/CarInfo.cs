@@ -1,9 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class CarInfo : MonoBehaviour
+[Serializable]
+public class CarInfo
 {
-    public int Index;
-    public string Name;
-    public bool IsCurrencyGold;
-    public int Price;
+    [SerializeField] private int index;
+    [SerializeField] private string carName;
+    [SerializeField] private bool isCurrencyGold;
+    [SerializeField] private int price;
+    [SerializeField] private CarTuning carTuning;
+
+    public int Index => index;
+
+    public string CarName => carName;
+
+    public bool IsCurrencyGold => isCurrencyGold;
+
+    public int Price => price;
+
+    public CarTuning CarTuning => carTuning;
 }
