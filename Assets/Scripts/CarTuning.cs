@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-[Serializable]
-public class CarTuning
+public class CarTuning : MonoBehaviour
 {
     [SerializeField] private SpoilerTuning spoilerTuning;
     [SerializeField] private WheelTuning wheelTuning;
@@ -14,7 +12,7 @@ public class CarTuning
 
     public bool HasTuning<T>(Tuning<T> tuning)
     {
-        return tuning.Prices.Length > 1;
+        return tuning.PriceObjectPairs.Length > 1;
     }
 }
 

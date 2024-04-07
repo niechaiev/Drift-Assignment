@@ -4,27 +4,25 @@ using UnityEngine;
 [Serializable]
 public abstract class Tuning<T>
 {
-    [SerializeField] private int[] prices;
-    [SerializeField] private T[] tuningObjects;
+    [SerializeField] private PriceAddonPair<T>[] priceObjectPairs;
     private int selected;
-        
+
+    public PriceAddonPair<T>[] PriceObjectPairs => priceObjectPairs;
     public int Selected
     {
         get => selected;
         set => selected = value;
     }
-        
-    public int[] Prices
-    {
-        get => prices;
-        set => prices = value;
-    }
-        
-    public T[] TuningObjects
-    {
-        get => tuningObjects;
-        set => tuningObjects = value;
-    }
+}
+
+[Serializable]
+public class PriceAddonPair<T>
+{
+    [SerializeField] private int price;
+    [SerializeField] private T addon;
+    public int Price => price;
+
+    public T Addon => addon;
 }
 
 [Serializable]

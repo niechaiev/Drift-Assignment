@@ -19,31 +19,11 @@ MonoBehaviour:
       carName: BMW
       isCurrencyGold: 0
       price: 0
-      carTuning:
-        spoilerTuning:
-          prices: 
-          tuningObjects: []
-        wheelTuning:
-          prices: 
-          tuningObjects: []
-        colorTuning:
-          prices: 
-          tuningObjects: []
-          carBody: {fileID: 0}
+      carTuning: {fileID: 2574084542229537711, guid: 11162c9a6f982554aa6f8af2757c0e0c, type: 3}
   - carPrefab: {fileID: 8934234302468195902, guid: 783217452d77a1942846ba968e7695ba, type: 3}
     carInfo:
       index: 1
       carName: Devyatka
       isCurrencyGold: 0
       price: 1000
-      carTuning:
-        spoilerTuning:
-          prices: 
-          tuningObjects: []
-        wheelTuning:
-          prices: 
-          tuningObjects: []
-        colorTuning:
-          prices: 
-          tuningObjects: []
-          carBody: {fileID: 0}
+      carTuning: {fileID: 3378154755422346488, guid: 783217452d77a1942846ba968e7695ba, type: 3}

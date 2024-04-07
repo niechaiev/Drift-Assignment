@@ -1005,6 +1005,7 @@ GameObject:
   - component: {fileID: 412298}
   - component: {fileID: 1169528624594097703}
   - component: {fileID: 4400574205507982326}
+  - component: {fileID: 2574084542229537711}
   m_Layer: 0
   m_Name: bmw
   m_TagString: Player
@@ -1094,6 +1095,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2574084542229537711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c1bf24e97c54a1a892cc8e04d47aabc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spoilerTuning:
+    priceObjectPairs:
+    - price: 0
+      addon: {fileID: 0}
+    - price: 100
+      addon: {fileID: 5409135901378980063}
+  wheelTuning:
+    priceObjectPairs: []
+  colorTuning:
+    priceObjectPairs:
+    - price: 0
+      addon: {fileID: 2100000, guid: 673e1721eefdffa4d83876e9b97789f3, type: 2}
+    - price: 100
+      addon: {fileID: 2100000, guid: eed77979a4b0417438091fe060c41a47, type: 2}
+    - price: 200
+      addon: {fileID: 2100000, guid: e6c722cca9c9c554daacc1441c486a26, type: 2}
+    - price: 500
+      addon: {fileID: 2100000, guid: cf82bb8ddf2634441a310d4256342232, type: 2}
+    carBody: {fileID: 0}
 --- !u!1 &175804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2386,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abb552a3e1c6e33439167d808c65cc30, type: 3}
+--- !u!1 &5409135901378980063 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7563097037722816288, guid: abb552a3e1c6e33439167d808c65cc30, type: 3}
+  m_PrefabInstance: {fileID: 2586360168636131327}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5822766656024797732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8298453726996088283, guid: abb552a3e1c6e33439167d808c65cc30, type: 3}
