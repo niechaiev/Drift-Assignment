@@ -17,9 +17,10 @@ namespace Garage
         
         private int previewedCar;
         private GameObject carInstance;
+
+        public GameObject CarInstance => carInstance;
+
         private Car car;
-        
-        public Car Car => car;
         
         public void SetModeSelectCar()
         {

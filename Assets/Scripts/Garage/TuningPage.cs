@@ -11,64 +11,113 @@ namespace Garage
         [SerializeField] private Button wheelTuningButton;
         [SerializeField] private Button colorTuningButton;
         [SerializeField] private Transform categoryGameObject;
-        [SerializeField] private Button addonButtonPrefab;
+        [SerializeField] private Button upgradeButtonPrefab;
+        [SerializeField] private Button buyButton;
         
-        private List<Button> addonButtons = new();
+        
+        private List<Button> upgradeButtons = new();
         private CarTuning selectedCarTuning;
+        private Renderer selectedCarBodyRenderer;
 
         private void Awake()
         {
-            spoilerTuningButton.onClick.AddListener(() => CreateAddonButtons(selectedCarTuning.SpoilerTuning));
-            wheelTuningButton.onClick.AddListener(() => CreateAddonButtons(selectedCarTuning.WheelTuning));
-            colorTuningButton.onClick.AddListener(() => CreateAddonButtons(selectedCarTuning.ColorTuning));
+            spoilerTuningButton.onClick.AddListener(() => CreateUpgradeButtons(selectedCarTuning.SpoilerTuning));
+            wheelTuningButton.onClick.AddListener(() => CreateUpgradeButtons(selectedCarTuning.WheelTuning));
+            colorTuningButton.onClick.AddListener(() => CreateUpgradeButtons(selectedCarTuning.ColorTuning));
         }
 
-        private void DestroyAddonButtons()
+        private void DestroyUpgradeButtons()
         {
-            foreach (var addonButton in addonButtons)
+            foreach (var upgradeButton in upgradeButtons)
             {
-                Destroy(addonButton.gameObject);
+                Destroy(upgradeButton.gameObject);
             }
-            addonButtons.Clear();
+            upgradeButtons.Clear();
         }
 
-        private void CreateAddonButtons(object tuning)
+        private void CreateUpgradeButtons(object tuning)
         {
-            DestroyAddonButtons();
+            DestroyUpgradeButtons();
+            buyButton.interactable = false;
+            buyButton.gameObject.SetActive(true);
             
             switch (tuning)
             {
                 case Tuning<GameObject> tuningGameObject:
-                    foreach (var pair in tuningGameObject.PriceObjectPairs)
+                    for (var index = 0; index < tuningGameObject.PriceObjectPairs.Length; index++)
                     {
-                        var addonButton = Instantiate(addonButtonPrefab, categoryGameObject);
-                        addonButton.GetComponentInChildren<TMP_Text>().SetText(pair.Price.ToString());
-                        addonButton.gameObject.SetActive(true);
-                        addonButtons.Add(addonButton);
+                        var pair = tuningGameObject.PriceObjectPairs[index];
+                        var upgradeButton = CreateUpgradeButton(pair);
+
+                        if (pair.Thumbnail != null)
+                            upgradeButton.image.sprite = pair.Thumbnail;
+
+                        var upgradeIndex = index;
+                        upgradeButton.onClick.AddListener(() =>
+                        {
+                            var upgrade = selectedCarTuning.SpoilerTuning.SelectedGameObject;
+                            if (upgrade != null)
+                                upgrade.SetActive(false);
+                            
+                            upgrade = tuningGameObject.PriceObjectPairs[upgradeIndex].Upgrade;
+                            if (upgrade != null)
+                                upgrade.SetActive(true);
+                            
+                            selectedCarTuning.SpoilerTuning.Selected = upgradeIndex;
+
+                            buyButton.interactable = pair.Price != 0 && pair.Price <= Player.Cash;
+                        });
                     }
+
                     break;
                 case Tuning<Material> tuningMaterial:
-                    foreach (var pair in tuningMaterial.PriceObjectPairs)
+                    for (var index = 0; index < tuningMaterial.PriceObjectPairs.Length; index++)
                     {
-                        var addonButton = Instantiate(addonButtonPrefab, categoryGameObject);
-                        addonButton.GetComponentInChildren<TMP_Text>().SetText(pair.Price.ToString());
-                        addonButton.image.color = pair.Addon.color;
-                        addonButton.gameObject.SetActive(true);
-                        addonButtons.Add(addonButton);
+                        var pair = tuningMaterial.PriceObjectPairs[index];
+                        var upgradeButton = CreateUpgradeButton(pair);
+
+                        upgradeButton.image.color = pair.Upgrade.color;
+
+                        var upgradeIndex = index;
+                        upgradeButton.onClick.AddListener(() =>
+                        {
+                            var materials = selectedCarBodyRenderer.materials;
+                            if (materials.Length > 1) //TODO::Rearrange materials
+                                materials[1] = pair.Upgrade;
+                            else
+                                materials[0] = pair.Upgrade;
+
+                            selectedCarBodyRenderer.materials = materials;
+                            
+                            selectedCarTuning.ColorTuning.Selected = upgradeIndex;
+                            
+                            buyButton.interactable = pair.Price != 0 && pair.Price <= Player.Cash;
+                        });
                     }
+                    
                     break;
             }
         }
-        
-        
 
-        public void Setup(CarTuning carTuning)
+        private Button CreateUpgradeButton<T>(PriceUpgradePair<T> pair)
         {
+            var upgradeButton = Instantiate(upgradeButtonPrefab, categoryGameObject);
+            upgradeButton.GetComponentInChildren<TMP_Text>()
+                .SetText(pair.Price == 0 ? "Owned" : pair.Price.ToString());
+            upgradeButton.gameObject.SetActive(true);
+            upgradeButtons.Add(upgradeButton);
+            return upgradeButton;
+        }
+
+
+        public void Setup(GameObject carInstance)
+        {
+            selectedCarTuning = carInstance.GetComponent<CarTuning>();
+            selectedCarBodyRenderer = selectedCarTuning.ColorTuning.CarBody.GetComponent<Renderer>();
             gameObject.SetActive(true);
-            if (carTuning.HasTuning(carTuning.SpoilerTuning)) spoilerTuningButton.gameObject.SetActive(true);
-            if (carTuning.HasTuning(carTuning.WheelTuning)) wheelTuningButton.gameObject.SetActive(true);
-            if (carTuning.HasTuning(carTuning.ColorTuning)) colorTuningButton.gameObject.SetActive(true);
-            selectedCarTuning = carTuning;
+            if (selectedCarTuning.HasTuning(selectedCarTuning.SpoilerTuning)) spoilerTuningButton.gameObject.SetActive(true);
+            if (selectedCarTuning.HasTuning(selectedCarTuning.WheelTuning)) wheelTuningButton.gameObject.SetActive(true);
+            if (selectedCarTuning.HasTuning(selectedCarTuning.ColorTuning)) colorTuningButton.gameObject.SetActive(true);
         }
 
         protected override void OnDisable()
@@ -77,7 +126,9 @@ namespace Garage
             spoilerTuningButton.gameObject.SetActive(false);
             wheelTuningButton.gameObject.SetActive(false);
             colorTuningButton.gameObject.SetActive(false);
-            DestroyAddonButtons();
+            DestroyUpgradeButtons();
+            buyButton.interactable = false;
+            buyButton.gameObject.SetActive(false);
         }
     }
 }

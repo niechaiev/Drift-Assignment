@@ -42,7 +42,7 @@ namespace Garage
         private void OpenTuningPage()
         {
             DisableMainMenuAndSelectCar();
-            tuningPage.Setup(carSelect.Car.carInfo.CarTuning);
+            tuningPage.Setup(carSelect.CarInstance);
         }
         
         private void OpenSettings()

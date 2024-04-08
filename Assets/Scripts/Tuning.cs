@@ -4,10 +4,10 @@ using UnityEngine;
 [Serializable]
 public abstract class Tuning<T>
 {
-    [SerializeField] private PriceAddonPair<T>[] priceObjectPairs;
+    [SerializeField] private PriceUpgradePair<T>[] priceObjectPairs;
     private int selected;
 
-    public PriceAddonPair<T>[] PriceObjectPairs => priceObjectPairs;
+    public PriceUpgradePair<T>[] PriceObjectPairs => priceObjectPairs;
     public int Selected
     {
         get => selected;
@@ -16,20 +16,30 @@ public abstract class Tuning<T>
 }
 
 [Serializable]
-public class PriceAddonPair<T>
+public class PriceUpgradePair<T>
 {
     [SerializeField] private int price;
-    [SerializeField] private T addon;
+    [SerializeField] private T upgrade;
+    [SerializeField] private Sprite thumbnail;
+    
     public int Price => price;
 
-    public T Addon => addon;
+    public T Upgrade => upgrade;
+    
+    public Sprite Thumbnail => thumbnail;
 }
 
 [Serializable]
-public class SpoilerTuning : Tuning<GameObject> { }
-    
+public class TuningGameObject : Tuning<GameObject>
+{
+    public GameObject SelectedGameObject => PriceObjectPairs[Selected].Upgrade;
+}
+
 [Serializable]
-public class WheelTuning : Tuning<GameObject> { }
+public class SpoilerTuning : TuningGameObject { }
+
+[Serializable]
+public class WheelTuning : TuningGameObject { }
     
 [Serializable]
 public class ColorTuning : Tuning<Material>
