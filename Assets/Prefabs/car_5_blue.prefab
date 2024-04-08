@@ -979,19 +979,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1bf24e97c54a1a892cc8e04d47aabc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spoilerTuning:
-    priceObjectPairs:
-    - price: 0
-      upgrade: {fileID: 0}
-      thumbnail: {fileID: 0}
-  wheelTuning:
-    priceObjectPairs: []
-  colorTuning:
-    priceObjectPairs:
-    - price: 0
-      upgrade: {fileID: -876546973899608171, guid: c609758a60f3baa48b0710a1fa89c048, type: 3}
-      thumbnail: {fileID: 0}
-    - price: 100
-      upgrade: {fileID: 2100000, guid: a7231f8115578174b937cf5c7c2e4258, type: 2}
-      thumbnail: {fileID: 0}
-    carBody: {fileID: 657342170832111499}
+  data:
+    carId: 1
+    spoilerTuning:
+      priceObjectPairs: []
+    wheelTuning:
+      priceObjectPairs: []
+    colorTuning:
+      priceObjectPairs: []
+      carBody: {fileID: 0}

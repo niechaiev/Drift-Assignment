@@ -16,7 +16,7 @@ namespace Garage
 
         private void Save()
         {
-            Player.Name = nameText.text;
+            Player.Instance.Name = nameText.text;
             gameObject.SetActive(false);
             header.BackButton.onClick?.Invoke();
         }
@@ -24,7 +24,7 @@ namespace Garage
         protected override void OnEnable()
         {
             base.OnEnable();
-            nameText.text = Player.Name;
+            nameText.text = Player.Instance.Name;
         }
     }
 }

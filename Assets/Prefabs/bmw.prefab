@@ -1107,31 +1107,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1bf24e97c54a1a892cc8e04d47aabc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spoilerTuning:
-    priceObjectPairs:
-    - price: 0
-      upgrade: {fileID: 0}
-      thumbnail: {fileID: 0}
-    - price: 100
-      upgrade: {fileID: 5409135901378980063}
-      thumbnail: {fileID: 21300000, guid: 5204982cd6ea6c3488a53debcbd19ecc, type: 3}
-  wheelTuning:
-    priceObjectPairs: []
-  colorTuning:
-    priceObjectPairs:
-    - price: 0
-      upgrade: {fileID: 2100000, guid: 673e1721eefdffa4d83876e9b97789f3, type: 2}
-      thumbnail: {fileID: 0}
-    - price: 100
-      upgrade: {fileID: 2100000, guid: eed77979a4b0417438091fe060c41a47, type: 2}
-      thumbnail: {fileID: 0}
-    - price: 200
-      upgrade: {fileID: 2100000, guid: e6c722cca9c9c554daacc1441c486a26, type: 2}
-      thumbnail: {fileID: 0}
-    - price: 500
-      upgrade: {fileID: 2100000, guid: cf82bb8ddf2634441a310d4256342232, type: 2}
-      thumbnail: {fileID: 0}
-    carBody: {fileID: 128230}
+  data:
+    carId: 0
+    spoilerTuning:
+      priceObjectPairs:
+      - price: 0
+        upgrade: {fileID: 0}
+        thumbnail: {fileID: 0}
+      - price: 500
+        upgrade: {fileID: 5409135901378980063}
+        thumbnail: {fileID: 0}
+      selected: 0
+    wheelTuning:
+      priceObjectPairs: []
+      selected: 0
+    colorTuning:
+      priceObjectPairs:
+      - price: 0
+        upgrade: {fileID: 2100000, guid: 673e1721eefdffa4d83876e9b97789f3, type: 2}
+        thumbnail: {fileID: 0}
+      - price: 700
+        upgrade: {fileID: 2100000, guid: eed77979a4b0417438091fe060c41a47, type: 2}
+        thumbnail: {fileID: 0}
+      - price: 666
+        upgrade: {fileID: 2100000, guid: e6c722cca9c9c554daacc1441c486a26, type: 2}
+        thumbnail: {fileID: 0}
+      - price: 344
+        upgrade: {fileID: 2100000, guid: cf82bb8ddf2634441a310d4256342232, type: 2}
+        thumbnail: {fileID: 0}
+      selected: 0
+      carBody: {fileID: 128230}
 --- !u!1 &175804
 GameObject:
   m_ObjectHideFlags: 0

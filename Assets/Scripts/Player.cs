@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
-public static class Player
+public class Player : MonoBehaviour
 {
-    private static string name;
-    private static int gold;
-    private static int cash;
-    private static List<int> ownedCars;
-    private static int selectedCar;
-    public static Action<int> OnGoldChange;
-    public static Action<int> OnCashChange;
-    public static string Name
+    [SerializeField] private CarList carList;
+    private static Player instance;
+    private string username;
+    private int gold;
+    private int cash;
+    private List<int> ownedCars;
+    private int selectedCar;
+    public Action<int> OnGoldChange;
+    public Action<int> OnCashChange;
+    public List<CarTuningData> CarTunings = new();
+    
+    public static Player Instance => instance;
+    public string Name
     {
-        get => name;
+        get => username;
         set
         {
-            name = value;
+            username = value;
             PlayerPrefs.SetString("username", value);
         }
     }
 
-    public static int Gold => gold;
+    public int Gold => gold;
 
-    public static int Cash
+    public int Cash
     {
         get => cash;
         set
@@ -35,14 +41,97 @@ public static class Player
         }
     }
 
-    public static IReadOnlyList<int> OwnedCars => ownedCars;
-    public static void OwnedCarsAdd(int carIndex)
+    public IReadOnlyList<int> OwnedCars => ownedCars;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+            Load();
+        }
+    }
+
+    private void Load()
+    {
+        username = PlayerPrefs.GetString("username", string.Empty);
+        gold = PlayerPrefs.GetInt("gold", 0);
+        cash = PlayerPrefs.GetInt("cash", 0);
+        var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
+        if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
+        ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
+        selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
+
+
+        if (LoadTuning()) return;
+        foreach (Car car in carList)
+        {
+            CarTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
+        }
+    }
+
+    public bool LoadTuning()
+    {
+        var fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
+        CarTuningDataList carTuningDataList = null;
+        if (File.Exists(fullPath))
+        {
+            try
+            {
+                var dataToLoad = string.Empty;
+                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        dataToLoad = reader.ReadToEnd();
+                    }
+                }
+
+                CarTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
+                return CarTunings.Count > 0;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        return false;
+
+    }
+
+    public void SaveTuning()
+    {
+        var fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
+        try
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
+            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(CarTunings), true);
+
+            using (var stream = new FileStream(fullPath, FileMode.Create))
+            {
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.Write(dataToStore);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            // ignored
+        }
+    }
+    
+    public void OwnedCarsAdd(int carIndex)
     {
         ownedCars.Add(carIndex);
         PlayerPrefs.SetString("ownedCars", string.Join("#", ownedCars));
     }
 
-    public static int SelectedCar
+    public int SelectedCar
     {
         get => selectedCar;
         set
@@ -53,14 +142,8 @@ public static class Player
         }
     }
 
-    static Player()
+    private void OnDisable()
     {
-        name = PlayerPrefs.GetString("username", string.Empty);
-        gold = PlayerPrefs.GetInt("gold", 0);
-        cash = PlayerPrefs.GetInt("cash", 0);
-        var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
-        if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
-        ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
-        selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
+        SaveTuning();
     }
 }

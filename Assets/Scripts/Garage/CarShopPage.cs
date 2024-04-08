@@ -19,7 +19,7 @@ namespace Garage
         public void SetPreviewedCarInfo(CarInfo carInfo)
         {
             previewedCarInfo = carInfo;
-            if (Player.OwnedCars.Any(c => c == carInfo.Index))
+            if (Player.Instance.OwnedCars.Any(c => c == carInfo.CarId))
             {
                 priceText.SetText("Owned");
                 buyButton.interactable = false;
@@ -31,27 +31,22 @@ namespace Garage
             {
                 priceText.color = Color.green;
                 priceText.SetText(priceText.text + " \u2666");
-                buyButton.interactable = Player.Gold >= carInfo.Price;
+                buyButton.interactable = Player.Instance.Gold >= carInfo.Price;
             }
             else
             {
                 priceText.color = Color.white;
                 priceText.SetText(priceText.text + " $");
-                buyButton.interactable = Player.Cash >= carInfo.Price;
+                buyButton.interactable = Player.Instance.Cash >= carInfo.Price;
             }
         }
 
         private void BuyCar()
         {
-            Player.OwnedCarsAdd(previewedCarInfo.Index);
-            Player.Cash -= previewedCarInfo.Price;
+            Player.Instance.OwnedCarsAdd(previewedCarInfo.CarId);
+            Player.Instance.Cash -= previewedCarInfo.Price;
             priceText.SetText("Owned");
             buyButton.interactable = false;
-        }
-
-        protected override void OnEnable()
-        {
-            base.OnEnable();
         }
     }
 }

@@ -4,13 +4,12 @@ using UnityEngine;
 [Serializable]
 public class CarInfo
 {
-    [SerializeField] private int index;
     [SerializeField] private string carName;
     [SerializeField] private bool isCurrencyGold;
     [SerializeField] private int price;
     [SerializeField] private CarTuning carTuning;
 
-    public int Index => index;
+    public int CarId => carTuning.Data.CarId;
 
     public string CarName => carName;
 

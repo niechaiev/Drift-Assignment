@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
 
     private void Finish()
     {
-        Player.Cash += score.Count;
+        Player.Instance.Cash += score.Count;
         menu.Show();
         carController.enabled = false;
         score.enabled = false;

@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
 
     private void Awake()
     {
-        Instantiate(carList[Player.SelectedCar].carPrefab, spawnPoints[0]);
+        var car = Instantiate(carList[Player.Instance.SelectedCar].carPrefab, spawnPoints[0]);
+        car.GetComponent<CarTuning>().Data.ApplyTuning();
     }
 }

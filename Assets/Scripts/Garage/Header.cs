@@ -18,11 +18,11 @@ namespace Garage
         {
             backButton.onClick.AddListener(() => mainMenu.gameObject.SetActive(true));
         
-            textGold.SetText($"{Player.Gold} \u2666");
-            textCash.SetText($"{Player.Cash} $");
+            textGold.SetText($"{Player.Instance.Gold} \u2666");
+            textCash.SetText($"{Player.Instance.Cash} $");
         
-            Player.OnGoldChange = gold => textGold.SetText($"{gold} $");
-            Player.OnCashChange = cash => textCash.SetText($"{cash} $");
+            Player.Instance.OnGoldChange = gold => textGold.SetText($"{gold} $");
+            Player.Instance.OnCashChange = cash => textCash.SetText($"{cash} $");
         }
 
         public void ShowButtonBack(bool state)
