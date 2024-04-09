@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Tuning;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -13,12 +14,14 @@ public class Player : MonoBehaviour
     private int cash;
     private List<int> ownedCars;
     private int selectedCar;
+    private List<CarTuningData> carTunings = new();
+    private string fullPath;
     public Action<int> OnGoldChange;
     public Action<int> OnCashChange;
-    public List<CarTuningData> CarTunings = new();
-    private string fullPath;
+
     
     public static Player Instance => instance;
+    public List<CarTuningData> CarTunings => carTunings;
     public string Name
     {
         get => username;
@@ -77,10 +80,10 @@ public class Player : MonoBehaviour
         selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
         
         if (LoadTuning()) return;
-        CarTunings.Clear();
+        carTunings.Clear();
         foreach (Car car in carList)
         {
-            CarTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
+            carTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
         }
     }
 
@@ -98,8 +101,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            CarTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
-            return CarTunings.Count > 0;
+            carTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
+            return carTunings.Count > 0;
         }
         catch (Exception e)
         {
@@ -112,7 +115,7 @@ public class Player : MonoBehaviour
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
-            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(CarTunings), true);
+            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(carTunings), true);
 
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
