@@ -57,7 +57,16 @@ namespace Garage
             carSelect.SetModeSelectCar();
         }
 
-        private void DisableMainMenuAndSelectCar()
+        public void DisableAllPages()
+        {
+            DisableMainMenuAndSelectCar();
+            carShopPage.gameObject.SetActive(false);
+            settingsPage.gameObject.SetActive(false);
+            tuningPage.gameObject.SetActive(false);
+            levelSelectPage.gameObject.SetActive(false);
+        }
+
+        public void DisableMainMenuAndSelectCar()
         {
             gameObject.SetActive(false);
             carSelect.gameObject.SetActive(false);

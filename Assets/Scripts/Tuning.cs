@@ -111,6 +111,7 @@ public class ColorTuning : Tuning<Material>
     
     public override void ApplyUpgrade(int upgradeIndex)
     {
+        if(carBody == null) return;
         var carBodyRenderer = carBody.GetComponent<Renderer>();
         var materials = carBodyRenderer.materials;
         if (materials.Length > 1) //TODO::Rearrange materials

@@ -983,8 +983,17 @@ MonoBehaviour:
     carId: 1
     spoilerTuning:
       priceObjectPairs: []
+      selected: 0
     wheelTuning:
       priceObjectPairs: []
+      selected: 0
     colorTuning:
-      priceObjectPairs: []
-      carBody: {fileID: 0}
+      priceObjectPairs:
+      - price: 0
+        upgrade: {fileID: -876546973899608171, guid: c609758a60f3baa48b0710a1fa89c048, type: 3}
+        thumbnail: {fileID: 0}
+      - price: 666
+        upgrade: {fileID: 2100000, guid: e6c722cca9c9c554daacc1441c486a26, type: 2}
+        thumbnail: {fileID: 0}
+      selected: 0
+      carBody: {fileID: 657342170832111499}

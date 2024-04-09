@@ -52,6 +52,7 @@ public class CarTuningData
     public void SetSelectedAndBuy<T>(Tuning<T> type,int index)
     {
         var tuning = GetTuningOfSameType(type);
+        Player.Instance.Cash -= tuning.PriceObjectPairs[index].Price;
         tuning.Selected = index;
         tuning.PriceObjectPairs[index].Price = 0;
     }

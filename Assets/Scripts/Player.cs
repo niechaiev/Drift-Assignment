@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public Action<int> OnGoldChange;
     public Action<int> OnCashChange;
     public List<CarTuningData> CarTunings = new();
+    private string fullPath;
     
     public static Player Instance => instance;
     public string Name
@@ -28,7 +29,16 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int Gold => gold;
+    public int Gold
+    {
+        get => gold;
+        set
+        {
+            gold = value;
+            PlayerPrefs.SetInt("gold", value);
+            OnGoldChange?.Invoke(value);
+        }
+    }
 
     public int Cash
     {
@@ -37,7 +47,7 @@ public class Player : MonoBehaviour
         {
             cash = value;
             PlayerPrefs.SetInt("cash", value);
-            OnCashChange?.Invoke(cash);
+            OnCashChange?.Invoke(value);
         }
     }
 
@@ -57,6 +67,7 @@ public class Player : MonoBehaviour
 
     private void Load()
     {
+        fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
         username = PlayerPrefs.GetString("username", string.Empty);
         gold = PlayerPrefs.GetInt("gold", 0);
         cash = PlayerPrefs.GetInt("cash", 0);
@@ -64,9 +75,9 @@ public class Player : MonoBehaviour
         if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
         ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
         selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
-
-
+        
         if (LoadTuning()) return;
+        CarTunings.Clear();
         foreach (Car car in carList)
         {
             CarTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
@@ -75,37 +86,29 @@ public class Player : MonoBehaviour
 
     public bool LoadTuning()
     {
-        var fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
-        CarTuningDataList carTuningDataList = null;
-        if (File.Exists(fullPath))
+        if (!File.Exists(fullPath)) return false;
+        try
         {
-            try
+            string dataToLoad;
+            using (var stream = new FileStream(fullPath, FileMode.Open))
             {
-                var dataToLoad = string.Empty;
-                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
+                using (var reader = new StreamReader(stream))
                 {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        dataToLoad = reader.ReadToEnd();
-                    }
+                    dataToLoad = reader.ReadToEnd();
                 }
+            }
 
-                CarTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
-                return CarTunings.Count > 0;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            CarTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
+            return CarTunings.Count > 0;
         }
-
-        return false;
-
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 
     public void SaveTuning()
     {
-        var fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
@@ -123,6 +126,21 @@ public class Player : MonoBehaviour
         {
             // ignored
         }
+    }
+
+    public void EraseData()
+    {
+        PlayerPrefs.DeleteAll();
+        File.Delete(fullPath);
+        Load();
+    }
+
+    public void BuyCurrency(bool isGold, int amount)
+    {
+        if (isGold)
+            Gold += amount;
+        else
+            Cash += amount;
     }
     
     public void OwnedCarsAdd(int carIndex)
