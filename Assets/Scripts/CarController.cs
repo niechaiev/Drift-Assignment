@@ -14,7 +14,7 @@ public class CarController : MonoBehaviour
     public bool IsDrifting => isDrifting;
 
 
-    private void Awake()
+    private void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         playerRb.centerOfMass = centerOfMass.transform.localPosition;

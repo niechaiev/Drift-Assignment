@@ -1,4 +1,4 @@
-using Extensions;
+using MyExtensions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

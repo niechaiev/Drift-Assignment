@@ -72,8 +72,8 @@ public class Player : MonoBehaviour
     {
         fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
         username = PlayerPrefs.GetString("username", string.Empty);
-        gold = PlayerPrefs.GetInt("gold", 0);
-        cash = PlayerPrefs.GetInt("cash", 0);
+        Gold = PlayerPrefs.GetInt("gold", 0);
+        Cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
         if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
         ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
@@ -87,7 +87,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool LoadTuning()
+    private bool LoadTuning()
     {
         if (!File.Exists(fullPath)) return false;
         try
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SaveTuning()
+    private void SaveTuning()
     {
         try
         {
@@ -138,7 +138,7 @@ public class Player : MonoBehaviour
         Load();
     }
 
-    public void BuyCurrency(bool isGold, int amount)
+    public void AddBalance(bool isGold, int amount)
     {
         if (isGold)
             Gold += amount;

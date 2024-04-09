@@ -29,7 +29,7 @@ namespace Garage
         {
             var item = Instantiate(iapItem.gameObject, parent).GetComponent<IAPItem>();
             item.Setup(isGold, amount, price);
-            item.OnClick = Player.Instance.BuyCurrency;
+            item.OnClick = Player.Instance.AddBalance;
             iapItems.Add(item);
         }
 
