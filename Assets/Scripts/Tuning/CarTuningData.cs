@@ -47,9 +47,10 @@ namespace Tuning
             tuning.PriceObjectPairs[index].Price = 0;
         }
     
-        public void ApplyTuning()
+        public void ApplyTuning(CarTuningData savedCarTuningData = null)
         {
-            var savedCarTuningData = Player.Instance.CarTunings[carId];
+            if (savedCarTuningData == null)
+                savedCarTuningData = Player.Instance.CarTunings[carId];
             spoilerTuning.ApplyUpgrade(savedCarTuningData.SpoilerTuning.Selected);
             //selectedCarTuning.Data.WheelTuning.ApplyUpgrade(savedCarTuningData.WheelTuning.Selected);
             colorTuning.ApplyUpgrade(savedCarTuningData.ColorTuning.Selected);

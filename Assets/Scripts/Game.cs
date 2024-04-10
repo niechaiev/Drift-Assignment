@@ -13,13 +13,13 @@ public class Game : MonoBehaviour
     private CarController carController;
     private Action onTimeOut;
 
-    private void Start()
+    public void SetupGame()
     {
         carGameObject = GameObject.FindGameObjectWithTag("Player");
         carRigidBody = carGameObject.GetComponent<Rigidbody>();
         carController = carGameObject.GetComponent<CarController>();
         
-        timer.StartTimer(20f);
+        timer.StartTimer(2000f);
         timer.OnTimeOut = Finish;
         score.Setup(carController);
         speedometer.Setup(carRigidBody);

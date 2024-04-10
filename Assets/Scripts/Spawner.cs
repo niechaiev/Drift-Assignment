@@ -1,3 +1,4 @@
+using Photon.Pun;
 using Tuning;
 using UnityEngine;
 
@@ -7,9 +8,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Transform[] spawnPoints;
     
 
-    private void Awake()
+    public void Spawn()
     {
-        var car = Instantiate(carList[Player.Instance.SelectedCar].carPrefab, spawnPoints[0]);
+        var car = PhotonNetwork.Instantiate(carList[Player.Instance.SelectedCar].carPrefab.name, spawnPoints[0].position, Quaternion.identity);
         car.GetComponent<CarTuning>().Data.ApplyTuning();
+        car.GetComponent<CarSetup>().SetupLocalCar();
+        
     }
 }

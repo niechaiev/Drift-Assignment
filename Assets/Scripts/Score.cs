@@ -30,6 +30,7 @@ public class Score : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(coroutine);
+        if (coroutine != null)
+            StopCoroutine(coroutine);
     }
 }

@@ -3861,6 +3861,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1616824420}
   - component: {fileID: 1616824421}
+  - component: {fileID: 1616824422}
   m_Layer: 0
   m_Name: Canvases
   m_TagString: Untagged
@@ -3903,6 +3904,20 @@ MonoBehaviour:
   score: {fileID: 469638196}
   menu: {fileID: 761156086}
   speedometer: {fileID: 1316464136}
+--- !u!114 &1616824422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616824419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c53d7e0bbb888c144843a8db29a9d7bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 596833758}
+  game: {fileID: 1616824421}
 --- !u!1001 &1635687588
 PrefabInstance:
   m_ObjectHideFlags: 0

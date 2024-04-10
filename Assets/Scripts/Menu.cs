@@ -1,4 +1,5 @@
 using MyExtensions;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -11,7 +12,11 @@ public class Menu : MonoBehaviour
 
     private void Awake()
     {
-        leaveButton.onClick.AddListener(() => SceneManager.LoadScene("Garage"));
+        leaveButton.onClick.AddListener(() =>
+        {
+            PhotonNetwork.Disconnect();
+            SceneManager.LoadScene("Garage");
+        });
     }
     
     private void Update()
