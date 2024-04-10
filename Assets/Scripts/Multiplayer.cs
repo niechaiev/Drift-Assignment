@@ -1,8 +1,6 @@
-using System;
-using System.Collections;
 using Photon.Pun;
-using Tuning;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Multiplayer : MonoBehaviourPunCallbacks
@@ -13,8 +11,9 @@ public class Multiplayer : MonoBehaviourPunCallbacks
     
     private GameObject car;
     
-    private void Start()
+    public void Setup(Spawner spawner)
     {
+        this.spawner = spawner;
         Debug.Log("Connecting");
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -34,7 +33,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         
         Debug.Log("in lobby");
 
-        PhotonNetwork.JoinOrCreateRoom("test", null, null);
+        PhotonNetwork.JoinOrCreateRoom(SceneManager.GetActiveScene().name, null, null);
     }
 
     public override void OnJoinedRoom()

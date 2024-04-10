@@ -10,12 +10,19 @@ namespace Garage
 
         private void Awake()
         {
-            levelButtons[0].onClick.AddListener(LoadScene);
+            for (var i = 0; i < levelButtons.Length; i++)
+            {
+                var sceneNumber = i;
+                levelButtons[i].onClick.AddListener(() =>
+                {
+                    LoadScene(sceneNumber);
+                });
+            }
         }
 
-        private void LoadScene()
+        private void LoadScene(int number)
         {
-            SceneManager.LoadScene("Level 1");
+            SceneManager.LoadScene("Level " + number);
         }
     
     }
