@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CarList carList;
     private static Player instance;
-    private string username;
+    private string nickname;
     private int gold;
     private int cash;
     private List<int> ownedCars;
@@ -22,13 +22,13 @@ public class Player : MonoBehaviour
     
     public static Player Instance => instance;
     public List<CarTuningData> CarTunings => carTunings;
-    public string Name
+    public string Nickname
     {
-        get => username;
+        get => nickname;
         set
         {
-            username = value;
-            PlayerPrefs.SetString("username", value);
+            nickname = value;
+            PlayerPrefs.SetString("nickname", value);
         }
     }
 
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
     private void Load()
     {
         fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
-        username = PlayerPrefs.GetString("username", string.Empty);
+        nickname = PlayerPrefs.GetString("username", string.Empty);
         Gold = PlayerPrefs.GetInt("gold", 0);
         Cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);

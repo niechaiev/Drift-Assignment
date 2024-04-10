@@ -22,7 +22,7 @@ namespace Garage
 
         private void Save()
         {
-            Player.Instance.Name = nameText.text;
+            Player.Instance.Nickname = nameText.text;
             Close();
         }
 
@@ -35,7 +35,7 @@ namespace Garage
         protected override void OnEnable()
         {
             base.OnEnable();
-            nameText.text = Player.Instance.Name;
+            nameText.text = Player.Instance.Nickname;
         }
     }
 }
