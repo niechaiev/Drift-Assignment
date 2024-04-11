@@ -6,12 +6,12 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     [SerializeField] private TMP_Text timerText;
-    private float timeLeft;
+    private float _timeLeft;
     public Action OnTimeOut;
 
     public void StartTimer(float time)
     {
-        timeLeft = time;
+        _timeLeft = time;
         StartCoroutine(CountDown());
     }
 
@@ -19,14 +19,14 @@ public class Timer : MonoBehaviour
     {
         while (true)
         {
-            timeLeft -= Time.deltaTime;
-            if (timeLeft < 0)
+            _timeLeft -= Time.deltaTime;
+            if (_timeLeft < 0)
             {
                 OnTimeOut?.Invoke();
                 yield break;
             }
 
-            timerText.SetText($"{Mathf.FloorToInt(timeLeft / 60)}:{Mathf.FloorToInt(timeLeft % 60):00}");
+            timerText.SetText($"{Mathf.FloorToInt(_timeLeft / 60)}:{Mathf.FloorToInt(_timeLeft % 60):00}");
             yield return null;
         }
     }

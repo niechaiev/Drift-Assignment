@@ -5,11 +5,11 @@ using UnityEngine;
 public class Speedometer : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
-    private Rigidbody carRigidBody;
+    private Rigidbody _carRigidBody;
     
     public void Setup(Rigidbody carRigidBody)
     {
-        this.carRigidBody = carRigidBody;
+        this._carRigidBody = carRigidBody;
         StartCoroutine(UpdateSpeed());
     }
 
@@ -17,7 +17,7 @@ public class Speedometer : MonoBehaviour
     {
         while (true)
         {
-            text.SetText($"{Mathf.RoundToInt(carRigidBody.velocity.magnitude * 3.6f)} KPH");
+            text.SetText($"{Mathf.RoundToInt(_carRigidBody.velocity.magnitude * 3.6f)} KPH");
             yield return new WaitForFixedUpdate();
         }
     }

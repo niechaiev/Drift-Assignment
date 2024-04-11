@@ -9,19 +9,19 @@ public class Multiplayer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Game game;
     [SerializeField] private TMP_Text waitingForPlayersText;
-    private Spawner spawner;
-    private Hashtable customProperties = new();
-    private int maxPlayers = 4;
-    private GameObject car;
-    private string roomName;
+    private Spawner _spawner;
+    private Hashtable _customProperties = new();
+    private int _maxPlayers = 4;
+    private GameObject _car;
+    private string _roomName;
     
     public void Setup(Spawner spawner)
     {
         enabled = true;
-        this.spawner = spawner;
+        this._spawner = spawner;
 
-        customProperties["Tuning"] = JsonUtility.ToJson(Player.Instance.CarTunings[Player.Instance.SelectedCar]);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+        _customProperties["Tuning"] = JsonUtility.ToJson(Player.Instance.CarTunings[Player.Instance.SelectedCar]);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(_customProperties);
         PhotonNetwork.LocalPlayer.NickName = Player.Instance.Nickname;
         
         Debug.Log("Connecting");
@@ -42,16 +42,16 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         base.OnJoinedLobby();
         
         Debug.Log("in lobby");
-        roomName = SceneManager.GetActiveScene().name;
-        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayers }, null);
+        _roomName = SceneManager.GetActiveScene().name;
+        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = _maxPlayers }, null);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
 
-        roomName += 1;
-        PhotonNetwork.JoinOrCreateRoom(roomName, new RoomOptions { MaxPlayers = maxPlayers }, null);
+        _roomName += 1;
+        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = _maxPlayers }, null);
 
     }
 
@@ -67,7 +67,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         
         Debug.Log("in room");
         
-        spawner.Spawn();
+        _spawner.Spawn();
         game.SetupGame();
         
         waitingForPlayersText.gameObject.SetActive(true);
@@ -83,17 +83,17 @@ public class Multiplayer : MonoBehaviourPunCallbacks
     private void WaitForPlayers()
     {
         var roomPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
-        if (roomPlayerCount == maxPlayers)
+        if (roomPlayerCount == _maxPlayers)
         {
             waitingForPlayersText.gameObject.SetActive(false);
             game.StartGame();
-            spawner.StartCar();
+            _spawner.StartCar();
             if (PhotonNetwork.IsMasterClient)
                 PhotonNetwork.CurrentRoom.IsOpen = false;
         }
         else
         {
-            waitingForPlayersText.SetText($"{roomPlayerCount}/{maxPlayers}");
+            waitingForPlayersText.SetText($"{roomPlayerCount}/{_maxPlayers}");
         }
     }
 }

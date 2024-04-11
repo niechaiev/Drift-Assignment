@@ -7,7 +7,7 @@ namespace Garage
     {
         [SerializeField] private IAPItem iapItem;
         [SerializeField] private Transform parent;
-        private List<IAPItem> iapItems = new();
+        private readonly List<IAPItem> _iapItems = new();
         
         public void Setup()
         {
@@ -30,16 +30,16 @@ namespace Garage
             var item = Instantiate(iapItem.gameObject, parent).GetComponent<IAPItem>();
             item.Setup(isGold, amount, price);
             item.OnClick = Player.Instance.AddBalance;
-            iapItems.Add(item);
+            _iapItems.Add(item);
         }
 
         private void Clear()
         {
-            foreach (var item in iapItems)
+            foreach (var item in _iapItems)
             {
                 Destroy(item.gameObject);
             }
-            iapItems.Clear();
+            _iapItems.Clear();
         }
         
         protected override void OnDisable()

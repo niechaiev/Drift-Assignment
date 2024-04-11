@@ -4,7 +4,7 @@ public class Singleplayer : MonoBehaviour
 {
     [SerializeField] private Game game;
    
-    private GameObject car;
+    private GameObject _car;
 
     public void Setup(Spawner spawner)
     {

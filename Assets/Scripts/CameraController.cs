@@ -3,22 +3,22 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float speedMultiplier;
-    private GameObject player;
-    private GameObject cameraLocation;
-    private float speed;
+    private GameObject _player;
+    private GameObject _cameraLocation;
+    private float _speed;
     
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");
     }
     
     private void FixedUpdate()
     {
-        if (player == null)
+        if (_player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");
             return;
         }
         Follow();
@@ -26,9 +26,9 @@ public class CameraController : MonoBehaviour
 
     private void Follow()
     {
-        speed = Vector3.Distance(gameObject.transform.position, cameraLocation.transform.position) * speedMultiplier;
+        _speed = Vector3.Distance(gameObject.transform.position, _cameraLocation.transform.position) * speedMultiplier;
         gameObject.transform.position =
-            Vector3.Lerp(transform.position, cameraLocation.transform.position, Time.deltaTime * speed);
-        gameObject.transform.LookAt(player.transform.position);
+            Vector3.Lerp(transform.position, _cameraLocation.transform.position, Time.deltaTime * _speed);
+        gameObject.transform.LookAt(_player.transform.position);
     }
 }

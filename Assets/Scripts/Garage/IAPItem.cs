@@ -8,17 +8,17 @@ namespace Garage
     public class IAPItem : MonoBehaviour
 
     {
-        [SerializeField] private Button IAPButton;
+        [SerializeField] private Button iapButton;
         [SerializeField] private TMP_Text amountText;
         [SerializeField] private TMP_Text priceText;
-        private bool isGold;
-        private int amount;
+        private bool _isGold;
+        private int _amount;
         public Action<bool, int> OnClick;
 
         public void Setup(bool isGold, int amount, string price)
         {
-            this.isGold = isGold;
-            this.amount = amount;
+            this._isGold = isGold;
+            this._amount = amount;
 
             var amountString = amount.ToString();
             if (isGold)
@@ -34,9 +34,9 @@ namespace Garage
 
             amountText.SetText(amountString);
             priceText.SetText(price);
-            IAPButton.onClick.AddListener(() =>
+            iapButton.onClick.AddListener(() =>
             {
-                OnClick?.Invoke(this.isGold, this.amount);
+                OnClick?.Invoke(this._isGold, this._amount);
             });
             gameObject.SetActive(true);
         }

@@ -5,14 +5,14 @@ public class PlayerListItem : MonoBehaviour
 {
     [SerializeField] private TMP_Text nicknameText;
     [SerializeField] private TMP_Text scoreText;
-    private int actorNumber;
+    private int _actorNumber;
 
-    public int ActorNumber => actorNumber;
+    public int ActorNumber => _actorNumber;
 
     public void Setup(string nickname, int actorNumber)
     {
         nicknameText.SetText(nickname);
-        this.actorNumber = actorNumber;
+        this._actorNumber = actorNumber;
     }
 
     public void SetScoreText(int score)

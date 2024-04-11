@@ -7,7 +7,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private CarList carList;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private GameObject canvases;
-    private GameObject car;
+    private GameObject _car;
     
     private void Awake()
     {
@@ -21,24 +21,24 @@ public class Spawner : MonoBehaviour
 
     public void Spawn()
     {
-        if (PhotonNetwork.IsConnected)
+        if (Player.Instance.IsOnline)
         {
             var spawnIndex = (PhotonNetwork.CurrentRoom.PlayerCount - 1) % spawnPoints.Length;
 
-            car = PhotonNetwork.Instantiate(carList[Player.Instance.SelectedCar].carPrefab.name,
+            _car = PhotonNetwork.Instantiate(carList[Player.Instance.SelectedCar].carPrefab.name,
                 spawnPoints[spawnIndex].position, spawnPoints[spawnIndex].rotation);
         }
         else
         {
-            car = Instantiate(carList[Player.Instance.SelectedCar].carPrefab,
+            _car = Instantiate(carList[Player.Instance.SelectedCar].carPrefab,
                 spawnPoints[0].position, spawnPoints[0].rotation);
         }
 
-        car.GetComponent<CarTuning>().Data.ApplyTuning();
+        _car.GetComponent<CarTuning>().Data.ApplyTuning();
     }
 
     public void StartCar()
     {
-        car.GetComponent<CarSetup>().SetupLocalCar();
+        _car.GetComponent<CarSetup>().SetupLocalCar();
     }
 }

@@ -8,44 +8,44 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private CarList carList;
-    private static Player instance;
-    private string nickname;
-    private int gold;
-    private int cash;
-    private List<int> ownedCars;
-    private int selectedCar;
-    private List<CarTuningData> carTunings = new();
-    private string fullPath;
-    private bool isOnline;
+    private static Player _instance;
+    private string _nickname;
+    private int _gold;
+    private int _cash;
+    private List<int> _ownedCars;
+    private int _selectedCar;
+    private List<CarTuningData> _carTunings = new();
+    private string _fullPath;
+    private bool _isOnline;
 
     public bool IsOnline
     {
-        get => isOnline;
-        set => isOnline = value;
+        get => _isOnline;
+        set => _isOnline = value;
     }
 
     public Action<int> OnGoldChange;
     public Action<int> OnCashChange;
 
     
-    public static Player Instance => instance;
-    public List<CarTuningData> CarTunings => carTunings;
+    public static Player Instance => _instance;
+    public List<CarTuningData> CarTunings => _carTunings;
     public string Nickname
     {
-        get => nickname;
+        get => _nickname;
         set
         {
-            nickname = value;
+            _nickname = value;
             PlayerPrefs.SetString("nickname", value);
         }
     }
 
     public int Gold
     {
-        get => gold;
+        get => _gold;
         set
         {
-            gold = value;
+            _gold = value;
             PlayerPrefs.SetInt("gold", value);
             OnGoldChange?.Invoke(value);
         }
@@ -53,16 +53,16 @@ public class Player : MonoBehaviour
 
     public int Cash
     {
-        get => cash;
+        get => _cash;
         set
         {
-            cash = value;
+            _cash = value;
             PlayerPrefs.SetInt("cash", value);
             OnCashChange?.Invoke(value);
         }
     }
 
-    public IReadOnlyList<int> OwnedCars => ownedCars;
+    public IReadOnlyList<int> OwnedCars => _ownedCars;
 
     private void Awake()
     {
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
             Destroy(this);
         else
         {
-            instance = this;
+            _instance = this;
             DontDestroyOnLoad(gameObject);
             Load();
         }
@@ -78,30 +78,30 @@ public class Player : MonoBehaviour
 
     private void Load()
     {
-        fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
-        nickname = PlayerPrefs.GetString("username", string.Empty);
+        _fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
+        _nickname = PlayerPrefs.GetString("username", string.Empty);
         Gold = PlayerPrefs.GetInt("gold", 0);
         Cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
         if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
-        ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
-        selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
+        _ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
+        _selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
         
         if (LoadTuning()) return;
-        carTunings.Clear();
+        _carTunings.Clear();
         foreach (Car car in carList)
         {
-            carTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
+            _carTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
         }
     }
 
     private bool LoadTuning()
     {
-        if (!File.Exists(fullPath)) return false;
+        if (!File.Exists(_fullPath)) return false;
         try
         {
             string dataToLoad;
-            using (var stream = new FileStream(fullPath, FileMode.Open))
+            using (var stream = new FileStream(_fullPath, FileMode.Open))
             {
                 using (var reader = new StreamReader(stream))
                 {
@@ -109,8 +109,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            carTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
-            return carTunings.Count > 0;
+            _carTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).carTuningDatas;
+            return _carTunings.Count > 0;
         }
         catch (Exception e)
         {
@@ -122,10 +122,10 @@ public class Player : MonoBehaviour
     {
         try
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(fullPath) ?? string.Empty);
-            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(carTunings), true);
+            Directory.CreateDirectory(Path.GetDirectoryName(_fullPath) ?? string.Empty);
+            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(_carTunings), true);
 
-            using (var stream = new FileStream(fullPath, FileMode.Create))
+            using (var stream = new FileStream(_fullPath, FileMode.Create))
             {
                 using (var writer = new StreamWriter(stream))
                 {
@@ -142,7 +142,7 @@ public class Player : MonoBehaviour
     public void EraseData()
     {
         PlayerPrefs.DeleteAll();
-        File.Delete(fullPath);
+        File.Delete(_fullPath);
         Load();
     }
 
@@ -156,16 +156,16 @@ public class Player : MonoBehaviour
     
     public void OwnedCarsAdd(int carIndex)
     {
-        ownedCars.Add(carIndex);
-        PlayerPrefs.SetString("ownedCars", string.Join("#", ownedCars));
+        _ownedCars.Add(carIndex);
+        PlayerPrefs.SetString("ownedCars", string.Join("#", _ownedCars));
     }
 
     public int SelectedCar
     {
-        get => selectedCar;
+        get => _selectedCar;
         set
         {
-            selectedCar = value;
+            _selectedCar = value;
             PlayerPrefs.SetInt("selectedCar", value);
             
         }

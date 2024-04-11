@@ -60,11 +60,11 @@ namespace Tuning
     [Serializable]
     public class CarTuningDataList
     {
-        public List<CarTuningData> CarTuningDatas;
+        public List<CarTuningData> carTuningDatas;
 
         public CarTuningDataList(List<CarTuningData> carTuningDatas)
         {
-            CarTuningDatas = carTuningDatas;
+            this.carTuningDatas = carTuningDatas;
         }
     }
 }

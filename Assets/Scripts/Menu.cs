@@ -23,12 +23,12 @@ public class Menu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Show();
+            Show(!canvasGroup.blocksRaycasts);
         }
     }
 
-    public void Show()
+    public void Show(bool state = true)
     {
-        canvasGroup.ShowCanvasGroup(!canvasGroup.blocksRaycasts);
+        canvasGroup.ShowCanvasGroup(state);
     }
 }

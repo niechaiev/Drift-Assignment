@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc974e88ded6304b8b9008006f070cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IAPButton: {fileID: 139805547}
+  iapButton: {fileID: 139805547}
   amountText: {fileID: 665045127}
   priceText: {fileID: 1114616997}
 --- !u!114 &139805547
@@ -8232,11 +8232,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backButton: {fileID: 639982889}
-  IAPButton: {fileID: 1418806685}
+  iapButton: {fileID: 1418806685}
   textGold: {fileID: 514791322}
   textCash: {fileID: 1676958048}
   mainMenu: {fileID: 1772143002}
-  IAPPage: {fileID: 1055054596}
+  iapPage: {fileID: 1055054596}
 --- !u!1 &2028503569
 GameObject:
   m_ObjectHideFlags: 0

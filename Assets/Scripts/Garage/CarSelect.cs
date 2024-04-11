@@ -15,12 +15,12 @@ namespace Garage
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private CarShopPage carShopPage;
         
-        private int previewedCar;
-        private GameObject carInstance;
+        private int _previewedCar;
+        private GameObject _carInstance;
 
-        public GameObject CarInstance => carInstance;
+        public GameObject CarInstance => _carInstance;
 
-        private Car car;
+        private Car _car;
         
         
         
@@ -31,7 +31,7 @@ namespace Garage
             rightButton.onClick.AddListener(SelectNextCar);
             leftButton.onClick.AddListener(SelectPreviousCar);
             ChangeCar(Player.Instance.SelectedCar);
-            previewedCar = Player.Instance.SelectedCar;
+            _previewedCar = Player.Instance.SelectedCar;
         }
 
         public void SetModePreviewCar()
@@ -76,42 +76,42 @@ namespace Garage
 
         private void PreviewNextCar()
         {
-            if (previewedCar == carList.Count - 1)
+            if (_previewedCar == carList.Count - 1)
             {
-                previewedCar = 0;
+                _previewedCar = 0;
             }
             else
             {
-                previewedCar += 1;
+                _previewedCar += 1;
             }
         
-            ChangeCar(previewedCar);
+            ChangeCar(_previewedCar);
         }
 
         private void PreviewPreviousCar()
         {
-            if (previewedCar == 0)
+            if (_previewedCar == 0)
             {
-                previewedCar = carList.Count - 1;
+                _previewedCar = carList.Count - 1;
             }
             else
             {
-                previewedCar -= 1;
+                _previewedCar -= 1;
             }
 
-            ChangeCar(previewedCar);
+            ChangeCar(_previewedCar);
         }
 
         private void ChangeCar(int selectedCarIndex)
         {
-            if (carInstance != null)
-                Destroy(carInstance);
-            car = carList[selectedCarIndex];
-            carInstance = Instantiate(car.carPrefab, spawn);
-            nameText.SetText(car.carInfo.CarName);
-            carShopPage.SetPreviewedCarInfo(car.carInfo);
+            if (_carInstance != null)
+                Destroy(_carInstance);
+            _car = carList[selectedCarIndex];
+            _carInstance = Instantiate(_car.carPrefab, spawn);
+            nameText.SetText(_car.carInfo.CarName);
+            carShopPage.SetPreviewedCarInfo(_car.carInfo);
 
-            carInstance.GetComponent<CarTuning>().Data.ApplyTuning();
+            _carInstance.GetComponent<CarTuning>().Data.ApplyTuning();
         }
 
         private void OnDisable()

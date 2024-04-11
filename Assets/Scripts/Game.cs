@@ -1,40 +1,44 @@
 ﻿using System;
+using Score;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] private Timer timer;
-    [SerializeField] private Score score;
+    [SerializeField] private ScoreInstantiator scoreInstantiator;
     [SerializeField] private Menu menu;
     [SerializeField] private Speedometer speedometer;
-    
-    private GameObject carGameObject;
-    private Rigidbody carRigidBody;
-    private CarController carController;
-    private Action onTimeOut;
+    [SerializeField] private DoubleReward doubleReward;
+
+    private Score.Score _currentScore;
+    private GameObject _carGameObject;
+    private Rigidbody _carRigidBody;
+    private CarController _carController;
+    private Action _onTimeOut;
 
     public void SetupGame()
     {
-        carGameObject = GameObject.FindGameObjectWithTag("Player");
-        carRigidBody = carGameObject.GetComponent<Rigidbody>();
-        carController = carGameObject.GetComponent<CarController>();
-        
+        _carGameObject = GameObject.FindGameObjectWithTag("Player");
+        _carRigidBody = _carGameObject.GetComponent<Rigidbody>();
+        _carController = _carGameObject.GetComponent<CarController>();
         timer.OnTimeOut = Finish;
-        score.Setup(carController);
-        speedometer.Setup(carRigidBody);
+        _currentScore = scoreInstantiator.InitializeScore(Player.Instance.IsOnline);
+        _currentScore.Setup(_carController);
+        speedometer.Setup(_carRigidBody);
     }
 
     public void StartGame()
     {
-        timer.StartTimer(599);
+        timer.StartTimer(9);
     }
 
     private void Finish()
     {
-        Player.Instance.Cash += score.Count;
+        Player.Instance.Cash += _currentScore.Count;
         menu.Show();
-        carController.enabled = false;
-        score.enabled = false;
+        _carController.enabled = false;
+        _currentScore.enabled = false;
         timer.enabled = false;
     }
+    
 }

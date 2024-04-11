@@ -7,11 +7,11 @@ namespace Garage
     public class Header : MonoBehaviour
     { 
         [SerializeField] private Button backButton;
-        [SerializeField] private Button IAPButton;
+        [SerializeField] private Button iapButton;
         [SerializeField] private TMP_Text textGold;
         [SerializeField] private TMP_Text textCash;
         [SerializeField] private MainMenu mainMenu;
-        [SerializeField] private IAPPage IAPPage;
+        [SerializeField] private IAPPage iapPage;
     
         public Button BackButton => backButton;
 
@@ -25,9 +25,9 @@ namespace Garage
             Player.Instance.OnGoldChange = gold => textGold.SetText($"{gold} \u2666");
             Player.Instance.OnCashChange = cash => textCash.SetText($"{cash} $");
             
-            IAPButton.onClick.AddListener(()=>
+            iapButton.onClick.AddListener(()=>
             {
-                IAPPage.Setup();
+                iapPage.Setup();
                 mainMenu.DisableAllPages();
                 ShowButtonBack(true);
             });

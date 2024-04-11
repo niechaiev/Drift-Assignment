@@ -9,7 +9,7 @@ namespace Garage
     {
         [SerializeField] private TMP_Text priceText;
         [SerializeField] private Button buyButton;
-        private CarInfo previewedCarInfo;
+        private CarInfo _previewedCarInfo;
 
         private void Awake()
         {
@@ -18,7 +18,7 @@ namespace Garage
 
         public void SetPreviewedCarInfo(CarInfo carInfo)
         {
-            previewedCarInfo = carInfo;
+            _previewedCarInfo = carInfo;
             if (Player.Instance.OwnedCars.Any(c => c == carInfo.CarId))
             {
                 priceText.SetText("Owned");
@@ -27,7 +27,7 @@ namespace Garage
             }
             
             priceText.SetText(carInfo.Price.ToString());
-            if (previewedCarInfo.IsCurrencyGold)
+            if (_previewedCarInfo.IsCurrencyGold)
             {
                 priceText.color = Color.green;
                 priceText.SetText(priceText.text + " \u2666");
@@ -43,8 +43,8 @@ namespace Garage
 
         private void BuyCar()
         {
-            Player.Instance.OwnedCarsAdd(previewedCarInfo.CarId);
-            Player.Instance.Cash -= previewedCarInfo.Price;
+            Player.Instance.OwnedCarsAdd(_previewedCarInfo.CarId);
+            Player.Instance.Cash -= _previewedCarInfo.Price;
             priceText.SetText("Owned");
             buyButton.interactable = false;
         }

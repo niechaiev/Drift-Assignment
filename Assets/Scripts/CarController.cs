@@ -8,16 +8,16 @@ public class CarController : MonoBehaviour
     [SerializeField] private float torque;
     [SerializeField] private float steeringMax;
     [SerializeField] private float brakePower;
-    private Rigidbody playerRb; 
-    private bool isDrifting;
+    private Rigidbody _playerRb; 
+    private bool _isDrifting;
 
-    public bool IsDrifting => isDrifting;
+    public bool IsDrifting => _isDrifting;
 
 
     private void Start()
     {
-        playerRb = GetComponent<Rigidbody>();
-        playerRb.centerOfMass = centerOfMass.transform.localPosition;
+        _playerRb = GetComponent<Rigidbody>();
+        _playerRb.centerOfMass = centerOfMass.transform.localPosition;
     }
 
     private void FixedUpdate()
@@ -42,11 +42,11 @@ public class CarController : MonoBehaviour
             if (wheelHit.sidewaysSlip >= .3f || wheelHit.sidewaysSlip <= -.3f ||
                 wheelHit.forwardSlip >= .3f || wheelHit.forwardSlip <= -.3f)
             {
-                if (i == 3) isDrifting = true;
+                if (i == 3) _isDrifting = true;
                 continue;
             }
 
-            isDrifting = false;
+            _isDrifting = false;
             break;
         }
     }
@@ -73,7 +73,7 @@ public class CarController : MonoBehaviour
 
     private void CheckSteer()
     {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || !isDrifting)
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || !_isDrifting)
         {
             var horizontal = Input.GetAxis("Horizontal");
             if (horizontal != 0)
@@ -89,7 +89,7 @@ public class CarController : MonoBehaviour
         }
         else
         {
-            var angle = Vector3.SignedAngle(transform.forward, playerRb.velocity, Vector3.up);
+            var angle = Vector3.SignedAngle(transform.forward, _playerRb.velocity, Vector3.up);
             wheels[0].steerAngle = Mathf.Lerp(wheels[0].steerAngle, Mathf.Clamp(angle, -steeringMax, steeringMax), Time.deltaTime);
             wheels[1].steerAngle = Mathf.Lerp(wheels[1].steerAngle, Mathf.Clamp(angle, -steeringMax, steeringMax), Time.deltaTime);
         }
