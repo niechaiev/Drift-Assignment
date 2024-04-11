@@ -8,7 +8,6 @@ public class Game : MonoBehaviour
     [SerializeField] private ScoreInstantiator scoreInstantiator;
     [SerializeField] private Menu menu;
     [SerializeField] private Speedometer speedometer;
-    [SerializeField] private DoubleReward doubleReward;
 
     private Score.Score _currentScore;
     private GameObject _carGameObject;
@@ -36,6 +35,7 @@ public class Game : MonoBehaviour
     {
         Player.Instance.Cash += _currentScore.Count;
         menu.Show();
+        menu.ShowReward(_currentScore.Count);
         _carController.enabled = false;
         _currentScore.enabled = false;
         timer.enabled = false;
