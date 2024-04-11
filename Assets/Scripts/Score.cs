@@ -56,7 +56,8 @@ public class Score : MonoBehaviourPunCallbacks
     {
         while (true)
         {
-            UpdateLeaderBoard();
+            if(PhotonNetwork.IsConnected)
+                UpdateLeaderBoard();
             if (carController.IsDrifting)
             {
                 text.SetText($"Score: {++count}");

@@ -7,18 +7,17 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Multiplayer : MonoBehaviourPunCallbacks
 {
-    [SerializeField] private Spawner spawner;
     [SerializeField] private Game game;
     [SerializeField] private TMP_Text waitingForPlayersText;
-    
+    private Spawner spawner;
     private Hashtable customProperties = new();
     private int maxPlayers = 4;
-    
     private GameObject car;
     private string roomName;
     
     public void Setup(Spawner spawner)
     {
+        enabled = true;
         this.spawner = spawner;
 
         customProperties["Tuning"] = JsonUtility.ToJson(Player.Instance.CarTunings[Player.Instance.SelectedCar]);

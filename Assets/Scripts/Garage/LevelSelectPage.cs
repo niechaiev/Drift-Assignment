@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Garage
@@ -7,6 +6,8 @@ namespace Garage
     public class LevelSelectPage : Page
     {
         [SerializeField] private Button[] levelButtons;
+        [SerializeField] private SelectModePage selectModePage;
+        
 
         private void Awake()
         {
@@ -15,15 +16,10 @@ namespace Garage
                 var sceneNumber = i;
                 levelButtons[i].onClick.AddListener(() =>
                 {
-                    LoadScene(sceneNumber);
+                    gameObject.SetActive(false);
+                    selectModePage.Setup("Level " + sceneNumber);
                 });
             }
         }
-
-        private void LoadScene(int number)
-        {
-            SceneManager.LoadScene("Level " + number);
-        }
-    
     }
 }

@@ -16,6 +16,14 @@ public class Player : MonoBehaviour
     private int selectedCar;
     private List<CarTuningData> carTunings = new();
     private string fullPath;
+    private bool isOnline;
+
+    public bool IsOnline
+    {
+        get => isOnline;
+        set => isOnline = value;
+    }
+
     public Action<int> OnGoldChange;
     public Action<int> OnCashChange;
 

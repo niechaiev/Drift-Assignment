@@ -1120,7 +1120,7 @@ MonoBehaviour:
         thumbnail: {fileID: 0}
       - price: 500
         upgrade: {fileID: 5409135901378980063}
-        thumbnail: {fileID: 0}
+        thumbnail: {fileID: 21300000, guid: 5204982cd6ea6c3488a53debcbd19ecc, type: 3}
       selected: 0
     wheelTuning:
       priceObjectPairs: []
