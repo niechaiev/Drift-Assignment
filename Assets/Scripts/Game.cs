@@ -34,7 +34,7 @@ public class Game : MonoBehaviour
 
     public void StartGame()
     {
-        timer.StartTimer(119);
+        timer.StartTimer(9);
     }
 
     private void Finish()

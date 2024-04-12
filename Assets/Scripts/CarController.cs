@@ -143,5 +143,12 @@ public class CarController : MonoBehaviour
         {
             wheel.motorTorque = 0;
         }
+
+        _handbreakHandler.OnPressed = null;
+        _handbreakHandler.OnReleased = null;
+        _forwardHandler.OnPressed = null;
+        _forwardHandler.OnReleased = null;
+        _reverseHandler.OnPressed = null;
+        _reverseHandler.OnReleased = null;
     }
 }
