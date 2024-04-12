@@ -10,6 +10,8 @@ namespace Garage
         [SerializeField] private Button tuningButton;
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button selectLevelButton;
+        [SerializeField] private Button quitButton;
+        
         [Header("Pages")] 
         [SerializeField] private LevelSelectPage levelSelectPage;
         [SerializeField] private CarShopPage carShopPage;
@@ -20,11 +22,11 @@ namespace Garage
     
         private void Awake()
         {
-            Application.targetFrameRate = 165;
             selectLevelButton.onClick.AddListener(OpenLevelSelect);
             carShopButton.onClick.AddListener(OpenCarShop);
             settingsButton.onClick.AddListener(OpenSettings);
             tuningButton.onClick.AddListener(OpenTuningPage);
+            quitButton.onClick.AddListener(Application.Quit);
         }
         
         private void OpenCarShop()

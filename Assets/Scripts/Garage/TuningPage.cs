@@ -85,6 +85,7 @@ namespace Garage
                     _savedCarTuningData.SetSelectedAndBuy(tuningUpgrade, index);
                     buyButton.interactable = false;
                     upgradeButtonText.SetText("Owned");
+                    Player.Instance.SaveTuning();
                     
                 });
                 buyButton.GetComponentInChildren<TMP_Text>().SetText(savedPair.Price == 0 ? "Select" : "Purchase & Select");

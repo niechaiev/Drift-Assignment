@@ -11,14 +11,14 @@ public class Multiplayer : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text waitingForPlayersText;
     private Spawner _spawner;
     private Hashtable _customProperties = new();
-    private int _maxPlayers = 1;
+    private int _maxPlayers = 2;
     private GameObject _car;
     private string _roomName;
     
     public void Setup(Spawner spawner)
     {
         enabled = true;
-        this._spawner = spawner;
+        _spawner = spawner;
 
         _customProperties["Tuning"] = JsonUtility.ToJson(Player.Instance.CarTunings[Player.Instance.SelectedCar]);
         PhotonNetwork.LocalPlayer.SetCustomProperties(_customProperties);

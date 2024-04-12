@@ -8,6 +8,11 @@ public class Game : MonoBehaviour
     [SerializeField] private ScoreInstantiator scoreInstantiator;
     [SerializeField] private Menu menu;
     [SerializeField] private Speedometer speedometer;
+    [SerializeField] private Joystick joystick;
+    [SerializeField] private PressReleaseHandler handbreakHandler;
+    [SerializeField] private PressReleaseHandler forwardHandler;
+    [SerializeField] private PressReleaseHandler reverseHandler;
+    
 
     private Score.Score _currentScore;
     private GameObject _carGameObject;
@@ -20,6 +25,7 @@ public class Game : MonoBehaviour
         _carGameObject = GameObject.FindGameObjectWithTag("Player");
         _carRigidBody = _carGameObject.GetComponent<Rigidbody>();
         _carController = _carGameObject.GetComponent<CarController>();
+        _carController.Init(joystick, handbreakHandler, forwardHandler, reverseHandler);
         timer.OnTimeOut = Finish;
         _currentScore = scoreInstantiator.InitializeScore(Player.Instance.IsOnline);
         _currentScore.Setup(_carController);
@@ -28,7 +34,7 @@ public class Game : MonoBehaviour
 
     public void StartGame()
     {
-        timer.StartTimer(9);
+        timer.StartTimer(119);
     }
 
     private void Finish()

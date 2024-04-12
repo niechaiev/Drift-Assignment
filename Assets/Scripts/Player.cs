@@ -79,7 +79,7 @@ public class Player : MonoBehaviour
     private void Load()
     {
         _fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
-        _nickname = PlayerPrefs.GetString("username", string.Empty);
+        _nickname = PlayerPrefs.GetString("nickname", string.Empty);
         Gold = PlayerPrefs.GetInt("gold", 0);
         Cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
@@ -118,7 +118,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void SaveTuning()
+    public void SaveTuning()
     {
         try
         {
@@ -169,10 +169,5 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("selectedCar", value);
             
         }
-    }
-
-    private void OnDisable()
-    {
-        SaveTuning();
     }
 }
