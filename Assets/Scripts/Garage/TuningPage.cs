@@ -15,7 +15,7 @@ namespace Garage
         [SerializeField] private Button upgradeButtonPrefab;
         [SerializeField] private Button buyButton;
         
-        private List<Button> _upgradeButtons = new();
+        private readonly List<Button> _upgradeButtons = new();
         private CarTuning _selectedCarTuning;
         private CarTuningData _savedCarTuningData;
 
@@ -73,7 +73,6 @@ namespace Garage
             var upgradeButton = Instantiate(upgradeButtonPrefab, categoryGameObject);
             var upgradeButtonText = upgradeButton.GetComponentInChildren<TMP_Text>();
             upgradeButtonText.SetText(savedPair.Price == 0 ? "Owned" : savedPair.Price.ToString());
-            upgradeButton.gameObject.SetActive(true);
             _upgradeButtons.Add(upgradeButton);
             upgradeButton.onClick.AddListener(() =>
             {

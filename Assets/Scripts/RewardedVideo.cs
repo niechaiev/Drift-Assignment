@@ -1,12 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections.Generic;
 
 // Example for IronSource Unity.
 public class RewardedVideo : MonoBehaviour
 {
     public Action OnAdRewarded;
-    public void Start()
+    public void Awake()
     {
 #if UNITY_ANDROID
         string appKey = "85460dcd";

@@ -8,36 +8,32 @@ public class Game : MonoBehaviour
     [SerializeField] private ScoreInstantiator scoreInstantiator;
     [SerializeField] private Menu menu;
     [SerializeField] private Speedometer speedometer;
-    [SerializeField] private Joystick joystick;
-    [SerializeField] private PressReleaseHandler handbreakHandler;
-    [SerializeField] private PressReleaseHandler forwardHandler;
-    [SerializeField] private PressReleaseHandler reverseHandler;
-    
+    [SerializeField] private Canvas steeringCanvas;
+    [SerializeField] private InputManager inputManager;
 
     private Score.Score _currentScore;
     private GameObject _carGameObject;
-    private Rigidbody _carRigidBody;
     private CarController _carController;
     private Action _onTimeOut;
 
     public void SetupGame()
     {
         _carGameObject = GameObject.FindGameObjectWithTag("Player");
-        _carRigidBody = _carGameObject.GetComponent<Rigidbody>();
         _carController = _carGameObject.GetComponent<CarController>();
-        _carController.Init(joystick, handbreakHandler, forwardHandler, reverseHandler);
-        timer.OnTimeOut = Finish;
+        _carController.Init(inputManager);
+        timer.OnTimeOut = FinishGame;
         _currentScore = scoreInstantiator.InitializeScore(Player.Instance.IsOnline);
         _currentScore.Setup(_carController);
-        speedometer.Setup(_carRigidBody);
+        speedometer.Setup(_carController);
     }
 
     public void StartGame()
     {
-        timer.StartTimer(9);
+        timer.StartTimer(119);
+        steeringCanvas.gameObject.SetActive(true);
     }
 
-    private void Finish()
+    private void FinishGame()
     {
         Player.Instance.Cash += _currentScore.Count;
         menu.Show();
@@ -45,6 +41,7 @@ public class Game : MonoBehaviour
         _carController.enabled = false;
         _currentScore.enabled = false;
         timer.enabled = false;
+        steeringCanvas.gameObject.SetActive(false);
     }
     
 }

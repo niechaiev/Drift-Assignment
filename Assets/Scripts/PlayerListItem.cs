@@ -12,7 +12,7 @@ public class PlayerListItem : MonoBehaviour
     public void Setup(string nickname, int actorNumber)
     {
         nicknameText.SetText(nickname);
-        this._actorNumber = actorNumber;
+        _actorNumber = actorNumber;
     }
 
     public void SetScoreText(int score)

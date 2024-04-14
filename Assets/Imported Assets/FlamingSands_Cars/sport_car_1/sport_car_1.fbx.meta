@@ -1,135 +1,323 @@
 fileFormatVersion: 2
 guid: c5c80a52ec520a949aba075f46688c6a
-timeCreated: 1471640556
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: BackLeft_wheel
-    100002: BackRight_wheel
-    100004: bl_brake
-    100006: bl_disk
-    100008: br_brake
-    100010: br_disk
-    100012: exhaust_1
-    100014: exhaust_2
-    100016: fl_brake
-    100018: fl_disk
-    100020: fr_brake
-    100022: fr_disk
-    100024: FrontLeft_wheel
-    100026: FrontRight_wheel
-    100028: //RootNode
-    100030: sport_car_1_body
-    100032: sport_car_1_interior
-    100034: sport_car_1_lights
-    100036: sport_car_1_steering_wheel
-    100038: sport_car_1_windows
-    400000: BackLeft_wheel
-    400002: BackRight_wheel
-    400004: bl_brake
-    400006: bl_disk
-    400008: br_brake
-    400010: br_disk
-    400012: exhaust_1
-    400014: exhaust_2
-    400016: fl_brake
-    400018: fl_disk
-    400020: fr_brake
-    400022: fr_disk
-    400024: FrontLeft_wheel
-    400026: FrontRight_wheel
-    400028: //RootNode
-    400030: sport_car_1_body
-    400032: sport_car_1_interior
-    400034: sport_car_1_lights
-    400036: sport_car_1_steering_wheel
-    400038: sport_car_1_windows
-    2300000: bl_brake
-    2300002: bl_disk
-    2300004: br_brake
-    2300006: br_disk
-    2300008: fl_brake
-    2300010: fl_disk
-    2300012: fr_brake
-    2300014: fr_disk
-    2300016: sport_car_1_body
-    2300018: sport_car_1_interior
-    2300020: sport_car_1_lights
-    2300022: sport_car_1_steering_wheel
-    2300024: sport_car_1_windows
-    3300000: bl_brake
-    3300002: bl_disk
-    3300004: br_brake
-    3300006: br_disk
-    3300008: fl_brake
-    3300010: fl_disk
-    3300012: fr_brake
-    3300014: fr_disk
-    3300016: sport_car_1_body
-    3300018: sport_car_1_interior
-    3300020: sport_car_1_lights
-    3300022: sport_car_1_steering_wheel
-    3300024: sport_car_1_windows
-    4300000: sport_car_1_body
-    4300002: bl_brake
-    4300004: bl_disk
-    4300006: br_brake
-    4300008: br_disk
-    4300010: fl_brake
-    4300012: fl_disk
-    4300014: fr_brake
-    4300016: fr_disk
-    4300018: sport_car_1_interior
-    4300020: sport_car_1_steering_wheel
-    4300022: sport_car_1_lights
-    4300024: sport_car_1_windows
+  serializedVersion: 22200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: BackLeft_wheel
+  - first:
+      1: 100002
+    second: BackRight_wheel
+  - first:
+      1: 100004
+    second: bl_brake
+  - first:
+      1: 100006
+    second: bl_disk
+  - first:
+      1: 100008
+    second: br_brake
+  - first:
+      1: 100010
+    second: br_disk
+  - first:
+      1: 100012
+    second: exhaust_1
+  - first:
+      1: 100014
+    second: exhaust_2
+  - first:
+      1: 100016
+    second: fl_brake
+  - first:
+      1: 100018
+    second: fl_disk
+  - first:
+      1: 100020
+    second: fr_brake
+  - first:
+      1: 100022
+    second: fr_disk
+  - first:
+      1: 100024
+    second: FrontLeft_wheel
+  - first:
+      1: 100026
+    second: FrontRight_wheel
+  - first:
+      1: 100028
+    second: //RootNode
+  - first:
+      1: 100030
+    second: sport_car_1_body
+  - first:
+      1: 100032
+    second: sport_car_1_interior
+  - first:
+      1: 100034
+    second: sport_car_1_lights
+  - first:
+      1: 100036
+    second: sport_car_1_steering_wheel
+  - first:
+      1: 100038
+    second: sport_car_1_windows
+  - first:
+      4: 400000
+    second: BackLeft_wheel
+  - first:
+      4: 400002
+    second: BackRight_wheel
+  - first:
+      4: 400004
+    second: bl_brake
+  - first:
+      4: 400006
+    second: bl_disk
+  - first:
+      4: 400008
+    second: br_brake
+  - first:
+      4: 400010
+    second: br_disk
+  - first:
+      4: 400012
+    second: exhaust_1
+  - first:
+      4: 400014
+    second: exhaust_2
+  - first:
+      4: 400016
+    second: fl_brake
+  - first:
+      4: 400018
+    second: fl_disk
+  - first:
+      4: 400020
+    second: fr_brake
+  - first:
+      4: 400022
+    second: fr_disk
+  - first:
+      4: 400024
+    second: FrontLeft_wheel
+  - first:
+      4: 400026
+    second: FrontRight_wheel
+  - first:
+      4: 400028
+    second: //RootNode
+  - first:
+      4: 400030
+    second: sport_car_1_body
+  - first:
+      4: 400032
+    second: sport_car_1_interior
+  - first:
+      4: 400034
+    second: sport_car_1_lights
+  - first:
+      4: 400036
+    second: sport_car_1_steering_wheel
+  - first:
+      4: 400038
+    second: sport_car_1_windows
+  - first:
+      23: 2300000
+    second: bl_brake
+  - first:
+      23: 2300002
+    second: bl_disk
+  - first:
+      23: 2300004
+    second: br_brake
+  - first:
+      23: 2300006
+    second: br_disk
+  - first:
+      23: 2300008
+    second: fl_brake
+  - first:
+      23: 2300010
+    second: fl_disk
+  - first:
+      23: 2300012
+    second: fr_brake
+  - first:
+      23: 2300014
+    second: fr_disk
+  - first:
+      23: 2300016
+    second: sport_car_1_body
+  - first:
+      23: 2300018
+    second: sport_car_1_interior
+  - first:
+      23: 2300020
+    second: sport_car_1_lights
+  - first:
+      23: 2300022
+    second: sport_car_1_steering_wheel
+  - first:
+      23: 2300024
+    second: sport_car_1_windows
+  - first:
+      33: 3300000
+    second: bl_brake
+  - first:
+      33: 3300002
+    second: bl_disk
+  - first:
+      33: 3300004
+    second: br_brake
+  - first:
+      33: 3300006
+    second: br_disk
+  - first:
+      33: 3300008
+    second: fl_brake
+  - first:
+      33: 3300010
+    second: fl_disk
+  - first:
+      33: 3300012
+    second: fr_brake
+  - first:
+      33: 3300014
+    second: fr_disk
+  - first:
+      33: 3300016
+    second: sport_car_1_body
+  - first:
+      33: 3300018
+    second: sport_car_1_interior
+  - first:
+      33: 3300020
+    second: sport_car_1_lights
+  - first:
+      33: 3300022
+    second: sport_car_1_steering_wheel
+  - first:
+      33: 3300024
+    second: sport_car_1_windows
+  - first:
+      43: 4300000
+    second: sport_car_1_body
+  - first:
+      43: 4300002
+    second: bl_brake
+  - first:
+      43: 4300004
+    second: bl_disk
+  - first:
+      43: 4300006
+    second: br_brake
+  - first:
+      43: 4300008
+    second: br_disk
+  - first:
+      43: 4300010
+    second: fl_brake
+  - first:
+      43: 4300012
+    second: fl_disk
+  - first:
+      43: 4300014
+    second: fr_brake
+  - first:
+      43: 4300016
+    second: fr_disk
+  - first:
+      43: 4300018
+    second: sport_car_1_interior
+  - first:
+      43: 4300020
+    second: sport_car_1_steering_wheel
+  - first:
+      43: 4300022
+    second: sport_car_1_lights
+  - first:
+      43: 4300024
+    second: sport_car_1_windows
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 1
     materialSearch: 2
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 2
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -139,11 +327,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

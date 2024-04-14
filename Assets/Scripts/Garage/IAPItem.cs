@@ -17,8 +17,8 @@ namespace Garage
 
         public void Setup(bool isGold, int amount, string price)
         {
-            this._isGold = isGold;
-            this._amount = amount;
+            _isGold = isGold;
+            _amount = amount;
 
             var amountString = amount.ToString();
             if (isGold)
@@ -36,9 +36,8 @@ namespace Garage
             priceText.SetText(price);
             iapButton.onClick.AddListener(() =>
             {
-                OnClick?.Invoke(this._isGold, this._amount);
+                OnClick?.Invoke(_isGold, _amount);
             });
-            gameObject.SetActive(true);
         }
     
     

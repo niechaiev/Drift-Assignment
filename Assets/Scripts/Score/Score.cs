@@ -18,9 +18,9 @@ namespace Score
 
         public virtual void Init(TMP_Text text, PlayerListItem playerListItem, Transform playerListTransform)
         {
-            this.Text = text;
-            this.PlayerListItem = playerListItem;
-            this.PlayerListTransform = playerListTransform;
+            Text = text;
+            PlayerListItem = playerListItem;
+            PlayerListTransform = playerListTransform;
         }
 
         public int Count => count;
@@ -28,7 +28,7 @@ namespace Score
 
         public void Setup(CarController carController)
         {
-            this.CarController = carController;
+            CarController = carController;
             _coroutine = StartCoroutine(CountScore());
         }
 

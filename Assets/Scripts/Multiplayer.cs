@@ -10,7 +10,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
     [SerializeField] private Game game;
     [SerializeField] private TMP_Text waitingForPlayersText;
     private Spawner _spawner;
-    private Hashtable _customProperties = new();
+    private readonly Hashtable _customProperties = new();
     private int _maxPlayers = 2;
     private GameObject _car;
     private string _roomName;

@@ -968,7 +968,7 @@ MonoBehaviour:
   - {fileID: 1745873291780315432}
   - {fileID: 5648856892146103637}
   centerOfMass: {fileID: 6548038664405415491}
-  torque: 1200
+  torque: 800
   steeringMax: 35
   brakePower: 90000
 --- !u!114 &3378154755422346488

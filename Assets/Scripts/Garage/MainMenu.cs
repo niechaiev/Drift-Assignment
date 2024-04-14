@@ -27,6 +27,7 @@ namespace Garage
             settingsButton.onClick.AddListener(OpenSettings);
             tuningButton.onClick.AddListener(OpenTuningPage);
             quitButton.onClick.AddListener(Application.Quit);
+            Application.targetFrameRate = 60;
         }
         
         private void OpenCarShop()

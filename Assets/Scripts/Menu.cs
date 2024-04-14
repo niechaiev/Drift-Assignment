@@ -1,3 +1,4 @@
+using System;
 using MyExtensions;
 using Photon.Pun;
 using UnityEngine;
@@ -23,7 +24,12 @@ public class Menu : MonoBehaviour
             SceneManager.LoadScene("Garage");
         });
     }
-    
+
+    private void Start()
+    {
+        doubleReward.gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))

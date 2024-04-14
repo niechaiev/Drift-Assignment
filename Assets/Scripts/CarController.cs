@@ -1,74 +1,35 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class CarController : MonoBehaviour
 {
-    [SerializeField] WheelCollider[] wheels;
+    private const float MinDriftAngle = 20;
+    private const float MaxDriftAngle = 160;
+    private const float MinDriftSpeed = 20;
+    private const float ThresholdAngularVelocity = 0.8f;
+    private readonly float _driftingTorque = 1500f;
+    private readonly float _handBrakeFrictionMultiplier = 1.7f;
+    
+    [SerializeField] private WheelCollider[] wheels;
     [SerializeField] private GameObject[] wheelMeshes;
     [SerializeField] private GameObject centerOfMass;
     [SerializeField] private float torque;
-    [SerializeField] private float steeringMax;
+    [SerializeField] private float maxSteering = 35f;
     [SerializeField] private float brakePower;
+    
     private Rigidbody _playerRb; 
     private bool _isDrifting;
-    private Joystick _joystick;
-    private PressReleaseHandler _handbreakHandler;
-    private PressReleaseHandler _forwardHandler;
-    private PressReleaseHandler _reverseHandler;
+    private InputManager _inputManager;
+
+
+    public WheelCollider[] Wheels => wheels;
 
     public bool IsDrifting => _isDrifting;
-
-    public void Init(Joystick joystick, PressReleaseHandler handbreakHandler, PressReleaseHandler forwardHandler, PressReleaseHandler reverseHandler)
+    
+    public void Init(InputManager inputManager)
     {
-        _joystick = joystick;
-        _handbreakHandler = handbreakHandler;
-        _forwardHandler = forwardHandler;
-        _reverseHandler = reverseHandler;
-
-        _handbreakHandler.OnPressed = () =>
-        {
-            var forwardFriction = wheels[2].forwardFriction;
-            var sidewaysFriction = wheels[2].sidewaysFriction;
-            wheels[2].brakeTorque = wheels[3].brakeTorque = brakePower;
-            forwardFriction.stiffness = sidewaysFriction.stiffness = 0.33f;
-            wheels[2].forwardFriction = wheels[3].forwardFriction = forwardFriction;
-            wheels[2].sidewaysFriction = wheels[3].sidewaysFriction = sidewaysFriction;
-        };
-
-        _handbreakHandler.OnReleased = () =>
-        {
-            var forwardFriction = wheels[2].forwardFriction;
-            var sidewaysFriction = wheels[2].sidewaysFriction;
-            wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
-            forwardFriction.stiffness = sidewaysFriction.stiffness = 1f;
-            wheels[2].forwardFriction = wheels[3].forwardFriction = forwardFriction;
-            wheels[2].sidewaysFriction = wheels[3].sidewaysFriction = sidewaysFriction;
-        };
-
-        _forwardHandler.OnPressed = () =>
-        {
-            wheels[2].motorTorque = wheels[3].motorTorque = torque;
-        };
-        _forwardHandler.OnReleased = ReleasePedal;
-
-        _reverseHandler.OnPressed = () =>
-        {
-            wheels[2].motorTorque = wheels[3].motorTorque = -torque;
-        };
-        _reverseHandler.OnReleased = ReleasePedal;
-
+        _inputManager = inputManager;
     }
-
-    private void ReleasePedal()
-    {
-        foreach (var wheel in wheels)
-        {
-            wheel.motorTorque = 0;
-        }
-    }
-
-
+    
     private void Start()
     {
         _playerRb = GetComponent<Rigidbody>();
@@ -77,54 +38,102 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        CheckSteer();
-        AnimateWheels();
+        Move();
+        Steer();
+        Handbrake();
         CheckDrift();
+        AnimateWheels();
     }
-
-
-
-    private void CheckDrift()
+    
+    private void Move()
     {
-        for (var i = 0; i < 4; i++)
+        if (_inputManager.IsForward)
         {
-            wheels[i].GetGroundHit(out var wheelHit);
-
-            if (wheelHit.sidewaysSlip >= .3f || wheelHit.sidewaysSlip <= -.3f ||
-                wheelHit.forwardSlip >= .3f || wheelHit.forwardSlip <= -.3f)
+            wheels[2].motorTorque = wheels[3].motorTorque = torque;
+        }
+        else if (_inputManager.IsReverse)
+        {
+            wheels[2].motorTorque = wheels[3].motorTorque = -torque;
+        }
+        else
+        {
+            foreach (var wheel in wheels)
             {
-                if (i == 3) _isDrifting = true;
-                continue;
+                wheel.motorTorque = 0;
             }
-
-            _isDrifting = false;
-            break;
         }
     }
 
-    private void CheckSteer()
+    private void Steer()
     {
-        if (_joystick.Horizontal != 0 || !_isDrifting)
+        if (_inputManager.IsSteering || !_isDrifting)
         {
-            var horizontal = _joystick.Horizontal;
+            var horizontal = _inputManager.HorizontalAxis;
             if (horizontal != 0)
             {
-                wheels[0].steerAngle = horizontal * steeringMax;
-                wheels[1].steerAngle = horizontal * steeringMax;
+                wheels[0].steerAngle = wheels[1].steerAngle =
+                    Mathf.Lerp(wheels[0].steerAngle, maxSteering * horizontal, Time.deltaTime * 4);
             }
             else
             {
-                wheels[0].steerAngle = Mathf.Lerp(wheels[0].steerAngle, 0, Time.deltaTime);
-                wheels[1].steerAngle = Mathf.Lerp(wheels[1].steerAngle, 0, Time.deltaTime);
+                wheels[0].steerAngle = wheels[1].steerAngle = Mathf.Lerp(wheels[0].steerAngle, 0, Time.deltaTime * 4);
             }
         }
         else
         {
-            var angle = Vector3.SignedAngle(transform.forward, _playerRb.velocity, Vector3.up);
-            wheels[0].steerAngle = Mathf.Lerp(wheels[0].steerAngle, Mathf.Clamp(angle, -steeringMax, steeringMax), Time.deltaTime);
-            wheels[1].steerAngle = Mathf.Lerp(wheels[1].steerAngle, Mathf.Clamp(angle, -steeringMax, steeringMax), Time.deltaTime);
+            AssistSteering();
         }
     }
+    
+    private void AssistSteering()
+    {
+        var steer = _playerRb.angularVelocity.y switch
+        {
+            > ThresholdAngularVelocity => -1,
+            < -ThresholdAngularVelocity => 1,
+            _ => 0f
+        };
+
+        wheels[0].steerAngle = wheels[1].steerAngle = Mathf.Lerp(wheels[0].steerAngle,
+            Mathf.Clamp(steer * maxSteering, -maxSteering, maxSteering),
+            Time.deltaTime * 4);
+
+        if (_inputManager.IsForward)
+        {
+            wheels[2].motorTorque = wheels[3].motorTorque = _driftingTorque;
+        }
+    }
+
+    private void Handbrake()
+    {
+        if (_inputManager.IsHandbrake)
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = brakePower;
+            SetRearWheelsStiffness(0.33f);
+        }
+        else
+        {
+            wheels[2].brakeTorque = wheels[3].brakeTorque = 0;
+            SetRearWheelsStiffness(1f);
+        }
+    }
+    
+    private void SetRearWheelsStiffness(float stiffness)
+    {
+        var forwardFriction = wheels[2].forwardFriction;
+        var sidewaysFriction = wheels[2].sidewaysFriction;
+        forwardFriction.stiffness = sidewaysFriction.stiffness = stiffness;
+        wheels[2].forwardFriction = wheels[3].forwardFriction = forwardFriction;
+        wheels[2].sidewaysFriction = wheels[3].sidewaysFriction = sidewaysFriction;
+    }
+
+    private void CheckDrift()
+    {
+        var driftValue = transform.InverseTransformVector(_playerRb.velocity); 
+        var driftAngle = Mathf.Abs(Mathf.Atan2(driftValue.x, driftValue.z) * Mathf.Rad2Deg);
+        _isDrifting = driftAngle is > MinDriftAngle and < MaxDriftAngle && _playerRb.velocity.magnitude * Speedometer.MsToKphRatio > MinDriftSpeed;
+    }
+
 
     private void AnimateWheels()
     {
@@ -135,7 +144,6 @@ public class CarController : MonoBehaviour
             wheelMeshes[i].transform.rotation = wheelRotation;
         }
     }
-    
 
     private void OnDisable()
     {
@@ -143,12 +151,5 @@ public class CarController : MonoBehaviour
         {
             wheel.motorTorque = 0;
         }
-
-        _handbreakHandler.OnPressed = null;
-        _handbreakHandler.OnReleased = null;
-        _forwardHandler.OnPressed = null;
-        _forwardHandler.OnReleased = null;
-        _reverseHandler.OnPressed = null;
-        _reverseHandler.OnReleased = null;
     }
 }
