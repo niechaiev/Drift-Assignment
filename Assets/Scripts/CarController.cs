@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController : MonoBehaviourPun
 {
     private const float MinDriftAngle = 20;
     private const float MaxDriftAngle = 160;
@@ -137,11 +138,24 @@ public class CarController : MonoBehaviour
 
     private void AnimateWheels()
     {
+        var wheelRotations = new Quaternion[4];
         for (var i = 0; i < wheelMeshes.Length; i++)
         {
-            wheels[i].GetWorldPose(out var wheelPosition, out var wheelRotation);
-            wheelMeshes[i].transform.position = wheelPosition;
+            wheels[i].GetWorldPose(out _, out var wheelRotation);
             wheelMeshes[i].transform.rotation = wheelRotation;
+            wheelRotations[i] = wheelRotation;
+        }
+
+        photonView.RPC("RPC_AnimateWheels", RpcTarget.Others, wheelRotations);
+    }
+
+    [PunRPC]
+    private void RPC_AnimateWheels(Quaternion[] wheelRotations)
+    {
+        Debug.Log("RPC_AnimateWheels");
+        for (var i = 0; i < 4; i++)
+        {
+            wheelMeshes[i].transform.rotation = wheelRotations[i];
         }
     }
 
