@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MyExtensions;
+using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class InputManager : MonoBehaviour
     [SerializeField] private PressReleaseHandler handbreakHandler;
     [SerializeField] private PressReleaseHandler forwardHandler;
     [SerializeField] private PressReleaseHandler reverseHandler;
+    [SerializeField] private CanvasGroup canvasGroup;
     
     private bool _isForward;
     private bool _isReverse;
@@ -25,7 +27,8 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-#if UNITY_EDITOR
+#if PLATFORM_STANDALONE_WIN || UNITY_EDITOR
+        canvasGroup.ShowCanvasGroup(false);
 #else
         forwardHandler.OnPressed = () => _isForward = true;
         forwardHandler.OnReleased = () => _isForward = false;
@@ -38,7 +41,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-#if UNITY_EDITOR
+#if PLATFORM_STANDALONE_WIN || UNITY_EDITOR
         _isForward = Input.GetKey(KeyCode.W);
         _isReverse = Input.GetKey(KeyCode.S);
         _isHandbrake = Input.GetKey(KeyCode.Space);

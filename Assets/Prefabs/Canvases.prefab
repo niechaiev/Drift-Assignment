@@ -2441,6 +2441,7 @@ GameObject:
   - component: {fileID: 5462244312547245411}
   - component: {fileID: 4860078067400987521}
   - component: {fileID: 2089566608462297166}
+  - component: {fileID: 589073567897751963}
   m_Layer: 5
   m_Name: Steering Canvas
   m_TagString: Untagged
@@ -2550,6 +2551,19 @@ MonoBehaviour:
   handbreakHandler: {fileID: 499749852793501001}
   forwardHandler: {fileID: 364232474881639223}
   reverseHandler: {fileID: 7857420030020797643}
+  canvasGroup: {fileID: 589073567897751963}
+--- !u!225 &589073567897751963
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4752490747664647789}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5602623642882629982
 GameObject:
   m_ObjectHideFlags: 0

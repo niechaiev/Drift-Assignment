@@ -13,9 +13,15 @@ public class Spawner : MonoBehaviour
     {
         var newCanvases = Instantiate(canvases);
         if (Player.Instance.IsOnline)
+        {
+            PhotonNetwork.OfflineMode = false;
             newCanvases.GetComponent<Multiplayer>().Setup(this);
-        else 
+        }
+        else
+        {
+            PhotonNetwork.OfflineMode = true;
             newCanvases.GetComponent<Singleplayer>().Setup(this);
+        }
     }
     
 
