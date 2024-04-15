@@ -1,4 +1,6 @@
 ﻿using System;
+using Drive;
+using Photon.Pun;
 using Score;
 using UnityEngine;
 
@@ -22,7 +24,7 @@ public class Game : MonoBehaviour
         _carController = _carGameObject.GetComponent<CarController>();
         _carController.Init(inputManager);
         timer.OnTimeOut = FinishGame;
-        _currentScore = scoreInstantiator.InitializeScore(Player.Instance.IsOnline);
+        _currentScore = scoreInstantiator.InitializeScore(!PhotonNetwork.OfflineMode);
         _currentScore.Setup(_carController);
         speedometer.Setup(_carController);
     }

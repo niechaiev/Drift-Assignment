@@ -1,19 +1,17 @@
 using System.Collections;
+using Drive;
 using TMPro;
 using UnityEngine;
 
 public class Speedometer : MonoBehaviour
 {
-    public const float MsToKphRatio = 3.6f;
     [SerializeField] private TMP_Text text;
     [SerializeField] private TMP_Text torqueText;
     private CarController _carController;
-    private Rigidbody _carRigidbody;
     
     public void Setup(CarController carController)
     {
         _carController = carController;
-        _carRigidbody = carController.GetComponent<Rigidbody>();
         StartCoroutine(UpdateSpeed());
     }
 
@@ -21,7 +19,7 @@ public class Speedometer : MonoBehaviour
     {
         while (true)
         {
-            text.SetText($"{Mathf.RoundToInt(_carRigidbody.velocity.magnitude * MsToKphRatio)} KPH");
+            text.SetText($"{Mathf.RoundToInt(_carController.Kph)} KPH");
             torqueText.SetText($"{Mathf.RoundToInt(_carController.Wheels[2].motorTorque)} Nm");
             yield return new WaitForFixedUpdate();
         }
