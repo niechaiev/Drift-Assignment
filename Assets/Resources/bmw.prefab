@@ -1074,7 +1074,7 @@ MonoBehaviour:
   torque: 800
   maxSteering: 35
   handbrakePower: 90000
-  brakePower: 90000
+  brakePower: 20000
 --- !u!54 &4400574205507982326
 Rigidbody:
   m_ObjectHideFlags: 0

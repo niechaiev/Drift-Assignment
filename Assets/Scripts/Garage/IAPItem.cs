@@ -13,7 +13,13 @@ namespace Garage
         [SerializeField] private TMP_Text priceText;
         private bool _isGold;
         private int _amount;
-        public Action<bool, int> OnClick;
+        public Action<string> OnClick;
+        
+        public bool IsGold => _isGold;
+
+        public int Amount => _amount;
+
+        public string Id => _isGold + "_" + _amount;
 
         public void Setup(bool isGold, int amount, string price)
         {
@@ -36,7 +42,7 @@ namespace Garage
             priceText.SetText(price);
             iapButton.onClick.AddListener(() =>
             {
-                OnClick?.Invoke(_isGold, _amount);
+                OnClick?.Invoke(Id);
             });
         }
     
