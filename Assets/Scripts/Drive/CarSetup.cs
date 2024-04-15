@@ -8,6 +8,7 @@ namespace Drive
         public void SetupLocalCar()
         {
             GetComponent<CarController>().enabled = true;
+            GetComponent<CarAudio>().enabled = true;
         }
     }
 }

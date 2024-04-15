@@ -203,13 +203,12 @@ namespace Drive
             }
 
             if (!PhotonNetwork.OfflineMode)
-                photonView.RPC("RPC_AnimateWheels", RpcTarget.Others, wheelRotations);
+                photonView.RPC(nameof(RPC_AnimateWheels), RpcTarget.Others, wheelRotations);
         }
 
         [PunRPC]
         private void RPC_AnimateWheels(Quaternion[] wheelRotations)
         {
-            Debug.Log("RPC_AnimateWheels");
             for (var i = 0; i < 4; i++)
             {
                 wheelMeshes[i].transform.rotation = wheelRotations[i];
