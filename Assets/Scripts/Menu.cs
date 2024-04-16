@@ -1,5 +1,6 @@
 using MyExtensions;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,6 +21,7 @@ public class Menu : MonoBehaviour
         leaveButton.onClick.AddListener(() =>
         {
             PhotonNetwork.Disconnect();
+            PhotonNetwork.LocalPlayer.SetScore(0);
             SceneManager.LoadScene("Garage");
         });
     }
