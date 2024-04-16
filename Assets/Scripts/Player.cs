@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
             _carTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).carTuningDatas;
             return _carTunings.Count > 0;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return false;
         }
@@ -133,7 +133,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // ignored
         }

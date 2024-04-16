@@ -8,7 +8,7 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private Timer timer;
     [SerializeField] private ScoreInstantiator scoreInstantiator;
-    [SerializeField] private Menu menu;
+    [SerializeField] private PauseMenu menu;
     [SerializeField] private Speedometer speedometer;
     [SerializeField] private Canvas steeringCanvas;
     [SerializeField] private InputManager inputManager;
