@@ -1092,6 +1092,7 @@ MonoBehaviour:
   - {fileID: 1086683239}
   - {fileID: 932246872}
   canvases: {fileID: 1567145748554900298, guid: ff8e478f1b220e147954ae775680730f, type: 3}
+  cameraController: {fileID: 963194229}
 --- !u!1001 &648204505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1861,7 +1862,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83d7670d5be900d42a01adeab8186c93, type: 3}
   m_Name: 

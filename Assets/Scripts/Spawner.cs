@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private CarList carList;
     [SerializeField] private Transform[] spawnPoints;
     [SerializeField] private GameObject canvases;
+    [SerializeField] private CameraController cameraController;
     private GameObject _car;
     
     private void Awake()
@@ -42,6 +43,7 @@ public class Spawner : MonoBehaviour
         }
 
         _car.GetComponent<CarTuning>().Data.ApplyTuning();
+        cameraController.enabled = true;
     }
 
     public void StartCar()

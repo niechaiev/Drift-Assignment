@@ -11,11 +11,13 @@ namespace Tuning
         [SerializeField] private SpoilerTuning spoilerTuning;
         [SerializeField] private WheelTuning wheelTuning;
         [SerializeField] private ColorTuning colorTuning;
-    
+        [SerializeField] private ImageTuning imageTuning;
+
         public int CarId => carId;
         public SpoilerTuning SpoilerTuning => spoilerTuning;
         public WheelTuning WheelTuning => wheelTuning;
         public ColorTuning ColorTuning => colorTuning;
+        public ImageTuning ImageTuning => imageTuning;
 
         public CarTuningData(CarTuningData carTuningData)
         {
@@ -23,20 +25,19 @@ namespace Tuning
             spoilerTuning = new SpoilerTuning(carTuningData.spoilerTuning);
             wheelTuning = new WheelTuning(carTuningData.wheelTuning);
             colorTuning = new ColorTuning(carTuningData.colorTuning);
+            imageTuning = new ImageTuning(carTuningData.ImageTuning);
         }
 
         public Tuning<T> GetTuningOfSameType<T>(Tuning<T> type)
         {
-            switch (type)
+            return type switch
             {
-                case global::Tuning.SpoilerTuning:
-                    return spoilerTuning as Tuning<T>;
-                case global::Tuning.WheelTuning:
-                    return wheelTuning as Tuning<T>;
-                case global::Tuning.ColorTuning:
-                    return colorTuning as Tuning<T>;
-            }
-            return null;
+                global::Tuning.SpoilerTuning => spoilerTuning as Tuning<T>,
+                global::Tuning.WheelTuning => wheelTuning as Tuning<T>,
+                global::Tuning.ColorTuning => colorTuning as Tuning<T>,
+                global::Tuning.ImageTuning => imageTuning as Tuning<T>,
+                _ => null
+            };
         }
 
         public void SetSelectedAndBuy<T>(Tuning<T> type,int index)
@@ -49,11 +50,13 @@ namespace Tuning
     
         public void ApplyTuning(CarTuningData savedCarTuningData = null)
         {
-            if (savedCarTuningData == null)
-                savedCarTuningData = Player.Instance.CarTunings[carId];
+            savedCarTuningData ??= Player.Instance.CarTunings[carId];
             spoilerTuning.ApplyUpgrade(savedCarTuningData.SpoilerTuning.Selected);
             //selectedCarTuning.Data.WheelTuning.ApplyUpgrade(savedCarTuningData.WheelTuning.Selected);
             colorTuning.ApplyUpgrade(savedCarTuningData.ColorTuning.Selected);
+            
+            var selectedImage = savedCarTuningData.ImageTuning.Selected;
+            imageTuning.ApplyUpgrade(selectedImage, savedCarTuningData.imageTuning.PriceObjectPairs[selectedImage]);
         }
     }
     

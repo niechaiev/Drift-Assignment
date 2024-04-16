@@ -15,12 +15,6 @@ public class CameraController : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (_player == null)
-        {
-            _player = GameObject.FindGameObjectWithTag("Player");
-            _cameraLocation = GameObject.FindGameObjectWithTag("CameraLocation");
-            return;
-        }
         Follow();
     }
 

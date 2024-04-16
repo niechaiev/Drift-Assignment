@@ -13,7 +13,7 @@ namespace Tuning
     
         public override void ApplyUpgrade(int upgradeIndex)
         {
-            if(carBody == null) return;
+            if (carBody is null) return;
             var carBodyRenderer = carBody.GetComponent<Renderer>();
             var materials = carBodyRenderer.materials;
             if (materials.Length > 1) //TODO::Rearrange materials

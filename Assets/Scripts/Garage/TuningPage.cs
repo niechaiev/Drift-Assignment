@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using Tuning;
 using UnityEngine;
@@ -11,9 +12,11 @@ namespace Garage
         [SerializeField] private Button spoilerTuningButton;
         [SerializeField] private Button wheelTuningButton;
         [SerializeField] private Button colorTuningButton;
+        [SerializeField] private Button imageTuningButton;
         [SerializeField] private Transform categoryGameObject;
         [SerializeField] private Button upgradeButtonPrefab;
         [SerializeField] private Button buyButton;
+        [SerializeField] private TMP_InputField urlInputField;
         
         private readonly List<Button> _upgradeButtons = new();
         private CarTuning _selectedCarTuning;
@@ -24,6 +27,7 @@ namespace Garage
             spoilerTuningButton.onClick.AddListener(() => CreateUpgradeButtons(_selectedCarTuning.Data.SpoilerTuning));
             wheelTuningButton.onClick.AddListener(() => CreateUpgradeButtons(_selectedCarTuning.Data.WheelTuning));
             colorTuningButton.onClick.AddListener(() => CreateUpgradeButtons(_selectedCarTuning.Data.ColorTuning));
+            imageTuningButton.onClick.AddListener(() => CreateUpgradeButtons(_selectedCarTuning.Data.ImageTuning));
         }
 
         private void DestroyUpgradeButtons()
@@ -63,10 +67,30 @@ namespace Garage
                     }
                     
                     break;
+                
+                case Tuning<string> tuningString:
+                    CreateUpgradeButton(tuningString, 0, out _, () => urlInputField.gameObject.SetActive(false));
+                    
+                    var savedPair = _savedCarTuningData.ImageTuning.PriceObjectPairs[1];
+                    CreateUpgradeButton(tuningString, 1, out var upgradePair,
+                        () =>
+                        {
+                            urlInputField.gameObject.SetActive(true);
+                            urlInputField.text = _savedCarTuningData.ImageTuning.PriceObjectPairs[1].Upgrade;
+                            urlInputField.onValueChanged.AddListener(_ =>
+                                buyButton.interactable = savedPair.Price <= Player.Instance.Cash);
+                        },() =>
+                        {
+                            savedPair.Upgrade = urlInputField.text;
+                            tuningString.PriceObjectPairs[1].Upgrade = urlInputField.text;
+                            ((ImageTuning)tuningString).ApplyUpgrade(1, savedPair);
+                        }).image.sprite = upgradePair.Thumbnail;
+
+                    break;
             }
         }
 
-        private Button CreateUpgradeButton<T>(Tuning<T> tuningUpgrade, int index, out PriceUpgradePair<T> pair)
+        private Button CreateUpgradeButton<T>(Tuning<T> tuningUpgrade, int index, out PriceUpgradePair<T> pair, Action onUpgrade = null, Action onBuy = null)
         {
             pair = tuningUpgrade.PriceObjectPairs[index];
             var savedPair = _savedCarTuningData.GetTuningOfSameType(tuningUpgrade).PriceObjectPairs[index];
@@ -81,14 +105,14 @@ namespace Garage
                 buyButton.onClick.RemoveAllListeners();
                 buyButton.onClick.AddListener(() =>
                 {
+                    onBuy?.Invoke();
                     _savedCarTuningData.SetSelectedAndBuy(tuningUpgrade, index);
                     buyButton.interactable = false;
                     upgradeButtonText.SetText("Owned");
                     Player.Instance.SaveTuning();
-                    
                 });
                 buyButton.GetComponentInChildren<TMP_Text>().SetText(savedPair.Price == 0 ? "Select" : "Purchase & Select");
-                
+                onUpgrade?.Invoke();
             });
             return upgradeButton;
         }
@@ -102,6 +126,7 @@ namespace Garage
             if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.SpoilerTuning)) spoilerTuningButton.gameObject.SetActive(true);
             if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.WheelTuning)) wheelTuningButton.gameObject.SetActive(true);
             if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.ColorTuning)) colorTuningButton.gameObject.SetActive(true);
+            if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.ImageTuning)) imageTuningButton.gameObject.SetActive(true);
         }
 
         protected override void OnDisable()
@@ -110,6 +135,8 @@ namespace Garage
             spoilerTuningButton.gameObject.SetActive(false);
             wheelTuningButton.gameObject.SetActive(false);
             colorTuningButton.gameObject.SetActive(false);
+            imageTuningButton.gameObject.SetActive(false);
+            urlInputField.gameObject.SetActive(false);
             DestroyUpgradeButtons();
             buyButton.interactable = false;
             buyButton.gameObject.SetActive(false);

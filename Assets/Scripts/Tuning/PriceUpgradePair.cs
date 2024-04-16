@@ -16,8 +16,12 @@ namespace Tuning
             set => price = value;
         }
 
-        public T Upgrade => upgrade;
-    
+        public T Upgrade
+        {
+            get => upgrade;
+            set => upgrade = value;
+        }
+
         public Sprite Thumbnail => thumbnail;
     
         public PriceUpgradePair(PriceUpgradePair<T> pair)
