@@ -20,8 +20,8 @@ public class Menu : MonoBehaviour
         });
         leaveButton.onClick.AddListener(() =>
         {
-            PhotonNetwork.Disconnect();
             PhotonNetwork.LocalPlayer.SetScore(0);
+            PhotonNetwork.Disconnect();
             SceneManager.LoadScene("Garage");
         });
     }

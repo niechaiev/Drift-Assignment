@@ -1,18 +1,14 @@
-using System;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Multiplayer : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Game game;
-    [SerializeField] private TMP_Text waitingForPlayersText;
-    [SerializeField] private GameObject maxPlayersGameObject;
-    [SerializeField] private Slider maxPlayersSlider;
+    [SerializeField] private WaitingMenu waitingMenu;
+    
     private Spawner _spawner;
     private readonly Hashtable _customProperties = new();
     private GameObject _car;
@@ -47,7 +43,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         
         Debug.Log("in lobby");
         _roomName = SceneManager.GetActiveScene().name;
-        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = (int)maxPlayersSlider.value }, null);
+        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = waitingMenu.MaxPlayers }, null);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -55,7 +51,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         base.OnJoinRoomFailed(returnCode, message);
 
         _roomName += 1;
-        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = (int)maxPlayersSlider.value }, null);
+        PhotonNetwork.JoinOrCreateRoom(_roomName, new RoomOptions { MaxPlayers = waitingMenu.MaxPlayers }, null);
 
     }
 
@@ -74,22 +70,15 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         _spawner.Spawn();
         game.SetupGame();
         
-        waitingForPlayersText.gameObject.SetActive(true);
+        waitingMenu.gameObject.SetActive(true);
         WaitForPlayers();
 
         if (PhotonNetwork.IsMasterClient)
-            ShowMaxPlayersSlider();
-    }
-
-    private void ShowMaxPlayersSlider()
-    {
-        maxPlayersGameObject.SetActive(true);
-        maxPlayersSlider.onValueChanged.RemoveAllListeners();
-        maxPlayersSlider.onValueChanged.AddListener(value =>
-        {
-            PhotonNetwork.CurrentRoom.MaxPlayers = (int)value;
-            WaitForPlayers();
-        });
+            waitingMenu.ShowMaxPlayersSlider(value =>
+            {
+                PhotonNetwork.CurrentRoom.MaxPlayers = value;
+                WaitForPlayers();
+            });
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -115,19 +104,23 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         base.OnMasterClientSwitched(newMasterClient);
 
         if (PhotonNetwork.IsMasterClient)
-            ShowMaxPlayersSlider();
+            waitingMenu.ShowMaxPlayersSlider(value =>
+            {
+                PhotonNetwork.CurrentRoom.MaxPlayers = value;
+                WaitForPlayers();
+            });
     }
 
     private void WaitForPlayers()
     {
-        if(_gameStarted) return;
+        if (_gameStarted) return;
         
         var roomPlayerCount = PhotonNetwork.CurrentRoom.PlayerCount;
         var maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
         if (roomPlayerCount == maxPlayers)
         {
             _gameStarted = true;
-            waitingForPlayersText.gameObject.SetActive(false);
+            waitingMenu.gameObject.SetActive(false);
             game.StartGame();
             _spawner.StartCar();
             if (PhotonNetwork.IsMasterClient)
@@ -135,7 +128,7 @@ public class Multiplayer : MonoBehaviourPunCallbacks
         }
         else
         {
-            waitingForPlayersText.SetText($"{roomPlayerCount}/{maxPlayers}");
+            waitingMenu.SetText(roomPlayerCount, maxPlayers);
         }
     }
 }
