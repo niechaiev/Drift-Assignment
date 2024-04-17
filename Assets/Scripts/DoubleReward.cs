@@ -20,6 +20,7 @@ public class DoubleReward : MonoBehaviour
             cashText.SetText($"{_reward} $ x 2");
             doubleButton.interactable = false;
             Player.Instance.Cash += _reward;
+            GAManager.OnMoneyGain(false, _reward, "rewardedVideo", "empty");
         };
     }
 

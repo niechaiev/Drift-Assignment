@@ -50,6 +50,7 @@ namespace Garage
                 _storeController.InitiatePurchase(id);
 #else
                 Player.Instance.AddBalance(isGold, amount);
+                GAManager.OnMoneyGain(isGold, amount, "IAP", amount.ToString());
 #endif
             };
             _iapItems.Add(item);
@@ -80,6 +81,7 @@ namespace Garage
             var product = purchaseEvent.purchasedProduct;
             var item = _iapItems.Find(item => item.Id == product.definition.id);
             Player.Instance.AddBalance(item.IsGold, item.Amount);
+            GAManager.OnMoneyGain(item.IsGold, item.Amount, "IAP", item.Amount.ToString());
             return PurchaseProcessingResult.Complete;
         }
         

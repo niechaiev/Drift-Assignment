@@ -43,7 +43,9 @@ namespace Tuning
         public void SetSelectedAndBuy<T>(Tuning<T> type,int index)
         {
             var tuning = GetTuningOfSameType(type);
-            Player.Instance.Cash -= tuning.PriceObjectPairs[index].Price;
+            var price = tuning.PriceObjectPairs[index].Price;
+            Player.Instance.Cash -= price;
+            GAManager.OnMoneySpent(false, price, "tuning", type.GetType() + " " + index);
             tuning.Selected = index;
             tuning.PriceObjectPairs[index].Price = 0;
         }

@@ -45,6 +45,7 @@ namespace Garage
         {
             Player.Instance.OwnedCarsAdd(_previewedCarInfo.CarId);
             Player.Instance.Cash -= _previewedCarInfo.Price;
+            GAManager.OnMoneySpent(false, _previewedCarInfo.Price, "car", _previewedCarInfo.CarId.ToString());
             priceText.SetText("Owned");
             buyButton.interactable = false;
         }

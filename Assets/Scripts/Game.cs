@@ -3,6 +3,7 @@ using Drive;
 using Photon.Pun;
 using Score;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class Game : MonoBehaviour
     private void FinishGame()
     {
         Player.Instance.Cash += _currentScore.Count;
+        
+        var levelName = SceneManager.GetActiveScene().name;
+        GAManager.OnMoneyGain(false, _currentScore.Count, "levelCompeted", levelName);
+        GAManager.OnLevelComplete(levelName);
+        
         menu.Show();
         menu.ShowReward(_currentScore.Count);
         _carController.enabled = false;
