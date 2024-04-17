@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "562284179131",
+    "project_id": "drift-firebase",
+    "storage_bucket": "drift-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:562284179131:android:2abc5cc0f40799bd8ac39e",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.DriftAssignment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTaVTpk6RWOn3EtIiRyO_iip-L6csePxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
