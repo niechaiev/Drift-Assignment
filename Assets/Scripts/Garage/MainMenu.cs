@@ -1,3 +1,4 @@
+using Garage.FirebaseMenu;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,13 +12,17 @@ namespace Garage
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button selectLevelButton;
         [SerializeField] private Button quitButton;
+        [SerializeField] private Button firebaseButton;
+        
         
         [Header("Pages")] 
         [SerializeField] private LevelSelectPage levelSelectPage;
         [SerializeField] private CarShopPage carShopPage;
         [SerializeField] private TuningPage tuningPage;
         [SerializeField] private SettingsPage settingsPage;
-        [SerializeField] private CarSelect carSelect;
+        [SerializeField] private CarSelector carSelector;
+        [SerializeField] private FirebaseContextPage firebasePage;
+        
     
     
         private void Awake()
@@ -27,14 +32,21 @@ namespace Garage
             settingsButton.onClick.AddListener(OpenSettings);
             tuningButton.onClick.AddListener(OpenTuningPage);
             quitButton.onClick.AddListener(Application.Quit);
+            firebaseButton.onClick.AddListener(OpenFirebasePage);
             Application.targetFrameRate = 60;
+        }
+        
+        private void OpenFirebasePage()
+        {
+            DisableMainMenuAndSelectCar();
+            firebasePage.gameObject.SetActive(true);
         }
         
         private void OpenCarShop()
         {
             carShopPage.gameObject.SetActive(true);
             gameObject.SetActive(false);
-            carSelect.SetModePreviewCar();
+            carSelector.SetModePreviewCar();
         }
         
         private void OpenLevelSelect()
@@ -45,7 +57,7 @@ namespace Garage
         private void OpenTuningPage()
         {
             DisableMainMenuAndSelectCar();
-            tuningPage.Setup(carSelect.CarInstance);
+            tuningPage.Setup(carSelector.CarInstance);
         }
         
         private void OpenSettings()
@@ -56,8 +68,8 @@ namespace Garage
 
         private void OnEnable()
         {
-            carSelect.gameObject.SetActive(true);
-            carSelect.SetModeSelectCar();
+            carSelector.gameObject.SetActive(true);
+            carSelector.SetModeSelectCar();
         }
 
         public void DisableAllPages()
@@ -72,7 +84,7 @@ namespace Garage
         public void DisableMainMenuAndSelectCar()
         {
             gameObject.SetActive(false);
-            carSelect.gameObject.SetActive(false);
+            carSelector.gameObject.SetActive(false);
         }
     }
 }

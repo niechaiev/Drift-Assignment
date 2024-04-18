@@ -8,7 +8,6 @@ namespace Garage
         [SerializeField] private Button[] levelButtons;
         [SerializeField] private SelectModePage selectModePage;
         
-
         private void Awake()
         {
             for (var i = 0; i < levelButtons.Length; i++)

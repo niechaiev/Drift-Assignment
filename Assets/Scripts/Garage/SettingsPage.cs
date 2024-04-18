@@ -16,19 +16,13 @@ namespace Garage
             eraseDataButton.onClick.AddListener(() =>
             {
                 Player.Instance.EraseData();
-                Close();
+                header.BackButton.onClick?.Invoke();
             });
         }
 
         private void Save()
         {
             Player.Instance.Nickname = nameText.text;
-            Close();
-        }
-
-        private void Close()
-        {
-            gameObject.SetActive(false);
             header.BackButton.onClick?.Invoke();
         }
 

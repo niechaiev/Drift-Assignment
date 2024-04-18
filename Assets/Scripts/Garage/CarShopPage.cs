@@ -43,7 +43,7 @@ namespace Garage
 
         private void BuyCar()
         {
-            Player.Instance.OwnedCarsAdd(_previewedCarInfo.CarId);
+            Player.Instance.AddOwnedCar(_previewedCarInfo.CarId);
             Player.Instance.SelectedCar = _previewedCarInfo.CarId;
             Player.Instance.Cash -= _previewedCarInfo.Price;
 

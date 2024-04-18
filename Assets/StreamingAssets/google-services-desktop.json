@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "562284179131",
+    "firebase_url": "https://drift-firebase-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "drift-firebase",
     "storage_bucket": "drift-firebase.appspot.com"
   },

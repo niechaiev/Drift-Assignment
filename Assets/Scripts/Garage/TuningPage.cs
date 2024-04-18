@@ -43,6 +43,7 @@ namespace Garage
         {
             _selectedCarTuning.Data.ApplyTuning();
             DestroyUpgradeButtons();
+            urlInputField.gameObject.SetActive(false);
             buyButton.interactable = false;
             buyButton.gameObject.SetActive(true);
             

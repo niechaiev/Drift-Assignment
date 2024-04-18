@@ -9,14 +9,19 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private CarList carList;
     private static Player _instance;
-    private string _nickname;
-    private int _gold;
-    private int _cash;
-    private List<int> _ownedCars;
-    private int _selectedCar;
-    private List<CarTuningData> _carTunings = new();
+    private PlayerData _data = new();
     private string _fullPath;
     private bool _isOnline;
+    
+    public PlayerData Data
+    {
+        get => _data;
+        set
+        {
+            _data = value;
+            SaveData();
+        }
+    }
 
     public bool IsOnline
     {
@@ -29,23 +34,23 @@ public class Player : MonoBehaviour
 
     
     public static Player Instance => _instance;
-    public List<CarTuningData> CarTunings => _carTunings;
+    public List<CarTuningData> CarTunings => _data.CarTunings;
     public string Nickname
     {
-        get => _nickname;
+        get => _data.nickname;
         set
         {
-            _nickname = value;
+            _data.nickname = value;
             PlayerPrefs.SetString("nickname", value);
         }
     }
 
     public int Gold
     {
-        get => _gold;
+        get => _data.gold;
         set
         {
-            _gold = value;
+            _data.gold = value;
             PlayerPrefs.SetInt("gold", value);
             OnGoldChange?.Invoke(value);
         }
@@ -53,16 +58,16 @@ public class Player : MonoBehaviour
 
     public int Cash
     {
-        get => _cash;
+        get => _data.cash;
         set
         {
-            _cash = value;
+            _data.cash = value;
             PlayerPrefs.SetInt("cash", value);
             OnCashChange?.Invoke(value);
         }
     }
 
-    public IReadOnlyList<int> OwnedCars => _ownedCars;
+    public IReadOnlyList<int> OwnedCars => _data.ownedCars;
 
     private void Awake()
     {
@@ -72,27 +77,37 @@ public class Player : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            Load();
+            LoadData();
         }
     }
 
-    private void Load()
+    private void LoadData()
     {
         _fullPath = Path.Combine(Application.persistentDataPath, nameof(CarTuningDataList));
-        _nickname = PlayerPrefs.GetString("nickname", string.Empty);
+        _data.nickname = PlayerPrefs.GetString("nickname", string.Empty);
         Gold = PlayerPrefs.GetInt("gold", 0);
         Cash = PlayerPrefs.GetInt("cash", 0);
         var ownedCarsString = PlayerPrefs.GetString("ownedCars").Split(new []{"#"}, StringSplitOptions.None);
         if (ownedCarsString.Length == 1) ownedCarsString[0] = "0";
-        _ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
-        _selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
+        _data.ownedCars = Array.ConvertAll(ownedCarsString, int.Parse).ToList();
+        _data.selectedCar = PlayerPrefs.GetInt("selectedCar", 0);
         
         if (LoadTuning()) return;
-        _carTunings.Clear();
+        _data.CarTunings.Clear();
         foreach (Car car in carList)
         {
-            _carTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
+            _data.CarTunings.Add(new CarTuningData(car.carInfo.CarTuning.Data));
         }
+    }
+
+    private void SaveData()
+    {
+        Nickname = _data.nickname;
+        SelectedCar = _data.selectedCar;
+        Cash = _data.cash;
+        Gold = _data.gold;
+        PlayerPrefs.SetString("ownedCars", string.Join("#", _data.ownedCars));
+        SaveTuning();
     }
 
     private bool LoadTuning()
@@ -109,8 +124,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            _carTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).carTuningDatas;
-            return _carTunings.Count > 0;
+            _data.CarTunings = JsonUtility.FromJson<CarTuningDataList>(dataToLoad).CarTuningDatas;
+            return _data.CarTunings.Count > 0;
         }
         catch (Exception)
         {
@@ -123,7 +138,7 @@ public class Player : MonoBehaviour
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_fullPath) ?? string.Empty);
-            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(_carTunings), true);
+            var dataToStore = JsonUtility.ToJson(new CarTuningDataList(_data.CarTunings), true);
 
             using (var stream = new FileStream(_fullPath, FileMode.Create))
             {
@@ -143,7 +158,7 @@ public class Player : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         File.Delete(_fullPath);
-        Load();
+        LoadData();
     }
 
     public void AddBalance(bool isGold, int amount)
@@ -154,18 +169,18 @@ public class Player : MonoBehaviour
             Cash += amount;
     }
     
-    public void OwnedCarsAdd(int carIndex)
+    public void AddOwnedCar(int carIndex)
     {
-        _ownedCars.Add(carIndex);
-        PlayerPrefs.SetString("ownedCars", string.Join("#", _ownedCars));
+        _data.ownedCars.Add(carIndex);
+        PlayerPrefs.SetString("ownedCars", string.Join("#", _data.ownedCars));
     }
 
     public int SelectedCar
     {
-        get => _selectedCar;
+        get => _data.selectedCar;
         set
         {
-            _selectedCar = value;
+            _data.selectedCar = value;
             PlayerPrefs.SetInt("selectedCar", value);
             
         }
@@ -173,31 +188,48 @@ public class Player : MonoBehaviour
 
     public int SelectPreviousCar()
     {
-        if (_selectedCar == _ownedCars[0])
+        if (_data.selectedCar == _data.ownedCars[0])
         {
-            SelectedCar = _ownedCars.Last();
+            SelectedCar = _data.ownedCars.Last();
         }
         else
         {
-            var index = _ownedCars.IndexOf(_selectedCar);
-            SelectedCar = _ownedCars[--index % _ownedCars.Count];
+            var index = _data.ownedCars.IndexOf(_data.selectedCar);
+            SelectedCar = _data.ownedCars[--index % _data.ownedCars.Count];
         }
 
-        return _selectedCar;
+        return _data.selectedCar;
     }
     
     public int SelectNextCar()
     {
-        if (_selectedCar == _ownedCars.Last())
+        if (_data.selectedCar == _data.ownedCars.Last())
         {
-            SelectedCar = _ownedCars[0];
+            SelectedCar = _data.ownedCars[0];
         }
         else
         {
-            var index = _ownedCars.IndexOf(_selectedCar);
-            SelectedCar = _ownedCars[++index % _ownedCars.Count];
+            var index = _data.ownedCars.IndexOf(_data.selectedCar);
+            SelectedCar = _data.ownedCars[++index % _data.ownedCars.Count];
         }
 
-        return _selectedCar;
+        return _data.selectedCar;
+    }
+}
+
+[Serializable]
+public class PlayerData
+{
+    public string nickname;
+    public int gold;
+    public int cash;
+    public List<int> ownedCars;
+    public int selectedCar;
+    public CarTuningDataList carTunings = new();
+
+    public List<CarTuningData> CarTunings
+    {
+        get => carTunings.CarTuningDatas;
+        set => carTunings.CarTuningDatas = value;
     }
 }

@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using Level;
+using Level.UI;
+using Photon.Pun;
 using UnityEngine;
 
 namespace Drive
@@ -14,7 +16,6 @@ namespace Drive
         private const float ThresholdAngularVelocity = 0.8f;
         private const float DriftingTorque = 1500f;
         
-        private const float HandbrakeFrictionMultiplier = 1.7f;
         private const float HandbrakeStiffness = 0.33f;
 
         [SerializeField] private WheelCollider[] wheels;
@@ -32,6 +33,7 @@ namespace Drive
         private float _kph;
 
         public float Kph => _kph;
+        public float Torque => torque;
 
 
         public WheelCollider[] Wheels => wheels;
