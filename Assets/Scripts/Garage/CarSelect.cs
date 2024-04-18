@@ -1,4 +1,3 @@
-using System.Linq;
 using TMPro;
 using Tuning;
 using UnityEngine;
@@ -21,69 +20,49 @@ namespace Garage
         public GameObject CarInstance => _carInstance;
 
         private Car _car;
-        
-        
+
+        private void SetButtonsInteractable()
+        {
+            if (Player.Instance.OwnedCars.Count <= 1)
+            {
+                leftButton.interactable = false;
+                rightButton.interactable = false;
+            }
+            else
+            {
+                leftButton.interactable = true;
+                rightButton.interactable = true;
+            }
+        }
         
         public void SetModeSelectCar()
         {
             rightButton.onClick.RemoveListener(PreviewNextCar);
             leftButton.onClick.RemoveListener(PreviewPreviousCar);
-            rightButton.onClick.AddListener(SelectNextCar);
-            leftButton.onClick.AddListener(SelectPreviousCar);
+            rightButton.onClick.AddListener(() => ChangeCar(Player.Instance.SelectNextCar()));
+            leftButton.onClick.AddListener(() => ChangeCar(Player.Instance.SelectPreviousCar()));
             ChangeCar(Player.Instance.SelectedCar);
             _previewedCar = Player.Instance.SelectedCar;
+            SetButtonsInteractable();
         }
 
         public void SetModePreviewCar()
         {
-            rightButton.onClick.RemoveListener(SelectNextCar);
-            leftButton.onClick.RemoveListener(SelectPreviousCar);
+            rightButton.onClick.RemoveAllListeners();
+            leftButton.onClick.RemoveAllListeners();
             rightButton.onClick.AddListener(PreviewNextCar);
             leftButton.onClick.AddListener(PreviewPreviousCar);
+            leftButton.interactable = true;
+            rightButton.interactable = true;
+        }
         
-        }
-    
-        private void SelectNextCar()
-        {
-            if (Player.Instance.SelectedCar == Player.Instance.OwnedCars.Count - 1)
-            {
-                Player.Instance.SelectedCar = Player.Instance.OwnedCars[0];
-            }
-            else
-            {
-                var index = Player.Instance.OwnedCars.First(i => i == Player.Instance.SelectedCar);
-                Player.Instance.SelectedCar = Player.Instance.OwnedCars[++index];
-            }
-        
-            ChangeCar(Player.Instance.SelectedCar);
-        }
-    
-        private void SelectPreviousCar()
-        {
-            if (Player.Instance.SelectedCar == Player.Instance.OwnedCars[0])
-            {
-                Player.Instance.SelectedCar = Player.Instance.OwnedCars.Count - 1;
-            }
-            else
-            {
-                var index = Player.Instance.OwnedCars.First(i => i == Player.Instance.SelectedCar);
-                Player.Instance.SelectedCar = Player.Instance.OwnedCars[--index];
-            }
-
-            ChangeCar(Player.Instance.SelectedCar);
-        }
-
 
         private void PreviewNextCar()
         {
             if (_previewedCar == carList.Count - 1)
-            {
                 _previewedCar = 0;
-            }
             else
-            {
-                _previewedCar += 1;
-            }
+                _previewedCar++;
         
             ChangeCar(_previewedCar);
         }
@@ -91,13 +70,9 @@ namespace Garage
         private void PreviewPreviousCar()
         {
             if (_previewedCar == 0)
-            {
                 _previewedCar = carList.Count - 1;
-            }
             else
-            {
-                _previewedCar -= 1;
-            }
+                _previewedCar--;
 
             ChangeCar(_previewedCar);
         }

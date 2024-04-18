@@ -26,7 +26,7 @@ public class RewardedVideo : MonoBehaviour
         IronSource.Agent.init(appKey);
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         //Add Init Event
         IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
@@ -43,8 +43,22 @@ public class RewardedVideo : MonoBehaviour
         IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
         IronSourceRewardedVideoEvents.onAdClickedEvent += RewardedVideoOnAdClickedEvent;
     }
+    
+    private void OnDisable()
+    {
+        IronSourceEvents.onSdkInitializationCompletedEvent -= SdkInitializationCompletedEvent;
+        IronSourceEvents.onImpressionDataReadyEvent -= ImpressionDataReadyEvent;
+        IronSourceRewardedVideoEvents.onAdOpenedEvent -= RewardedVideoOnAdOpenedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdAvailableEvent -= RewardedVideoOnAdAvailable;
+        IronSourceRewardedVideoEvents.onAdUnavailableEvent -= RewardedVideoOnAdUnavailable;
+        IronSourceRewardedVideoEvents.onAdShowFailedEvent -= RewardedVideoOnAdShowFailedEvent;
+        IronSourceRewardedVideoEvents.onAdRewardedEvent -= RewardedVideoOnAdRewardedEvent;
+        IronSourceRewardedVideoEvents.onAdClickedEvent -= RewardedVideoOnAdClickedEvent;
+    }
 
-    void OnApplicationPause(bool isPaused)
+
+    public void OnApplicationPause(bool isPaused)
     {
         Debug.Log("unity-script: OnApplicationPause = " + isPaused);
         IronSource.Agent.onApplicationPause(isPaused);
@@ -64,7 +78,7 @@ public class RewardedVideo : MonoBehaviour
     }
     #region Init callback handlers
 
-    void SdkInitializationCompletedEvent()
+    private void SdkInitializationCompletedEvent()
     {
         Debug.Log("unity-script: I got SdkInitializationCompletedEvent");
     }
@@ -72,38 +86,39 @@ public class RewardedVideo : MonoBehaviour
     #endregion
 
     #region AdInfo Rewarded Video
-    void RewardedVideoOnAdOpenedEvent(IronSourceAdInfo adInfo)
+
+    private void RewardedVideoOnAdOpenedEvent(IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdOpenedEvent With AdInfo " + adInfo);
     }
 
-    void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
+    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdClosedEvent With AdInfo " + adInfo);
     }
 
-    void RewardedVideoOnAdAvailable(IronSourceAdInfo adInfo)
+    private void RewardedVideoOnAdAvailable(IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdAvailable With AdInfo " + adInfo);
     }
 
-    void RewardedVideoOnAdUnavailable()
+    private void RewardedVideoOnAdUnavailable()
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdUnavailable");
     }
 
-    void RewardedVideoOnAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo adInfo)
+    private void RewardedVideoOnAdShowFailedEvent(IronSourceError ironSourceError, IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoAdOpenedEvent With Error" + ironSourceError + "And AdInfo " + adInfo);
     }
 
-    void RewardedVideoOnAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
+    private void RewardedVideoOnAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdRewardedEvent With Placement" + ironSourcePlacement + "And AdInfo " + adInfo);
         OnAdRewarded?.Invoke();
     }
 
-    void RewardedVideoOnAdClickedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
+    private void RewardedVideoOnAdClickedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
     {
         Debug.Log("unity-script: I got RewardedVideoOnAdClickedEvent With Placement" + ironSourcePlacement + "And AdInfo " + adInfo);
     }
@@ -112,7 +127,7 @@ public class RewardedVideo : MonoBehaviour
     
     #region ImpressionSuccess callback handler
 
-    void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
+    private void ImpressionDataReadyEvent(IronSourceImpressionData impressionData)
     {
         Debug.Log("unity - script: I got ImpressionDataReadyEvent ToString(): " + impressionData.ToString());
         Debug.Log("unity - script: I got ImpressionDataReadyEvent allData: " + impressionData.allData);

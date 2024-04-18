@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance && Instance != this)
             Destroy(this);
         else
         {
@@ -169,5 +169,35 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("selectedCar", value);
             
         }
+    }
+
+    public int SelectPreviousCar()
+    {
+        if (_selectedCar == _ownedCars[0])
+        {
+            SelectedCar = _ownedCars.Last();
+        }
+        else
+        {
+            var index = _ownedCars.IndexOf(_selectedCar);
+            SelectedCar = _ownedCars[--index % _ownedCars.Count];
+        }
+
+        return _selectedCar;
+    }
+    
+    public int SelectNextCar()
+    {
+        if (_selectedCar == _ownedCars.Last())
+        {
+            SelectedCar = _ownedCars[0];
+        }
+        else
+        {
+            var index = _ownedCars.IndexOf(_selectedCar);
+            SelectedCar = _ownedCars[++index % _ownedCars.Count];
+        }
+
+        return _selectedCar;
     }
 }

@@ -92,7 +92,6 @@ namespace Garage
         
         public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
         {
-            throw new System.NotImplementedException();
         }
 
         public void OnInitializeFailed(InitializationFailureReason error)

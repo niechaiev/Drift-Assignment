@@ -10,7 +10,6 @@ namespace Drive
         [SerializeField] private AudioClip idleAudioClip;
         [SerializeField] private AudioClip accelerationAudioClip;
         
-        private const float SlipThreshold = 0.4f;
         private CarController _carController;
 
         private void Awake()
@@ -30,27 +29,38 @@ namespace Drive
             {
                 if (engineAudioSource.clip != idleAudioClip)
                 {
-                    if(engineAudioSource.volume > 0.1f)
+                    const float minEngineVolume = 0.4f;
+                    
+                    if (engineAudioSource.volume > minEngineVolume)
                     {
                         engineAudioSource.volume = Mathf.Lerp(engineAudioSource.volume, 0f, Time.deltaTime * 2);
                     }
                     else
                     {
-                        engineAudioSource.volume = 1;
+                        const float engineIdleVolume = 0.4f;
+                        engineAudioSource.volume = engineIdleVolume;
                         engineAudioSource.clip = idleAudioClip;
                         engineAudioSource.Play();
                     }
                 }
                 else
                 {
-                    engineAudioSource.pitch = 1 + Mathf.Clamp01(_carController.Kph / 50);
+                    const int maxKphForIdle = 50;
+                    
+                    engineAudioSource.pitch = 1 + Mathf.Clamp01(_carController.Kph / maxKphForIdle);
                 }
             }
             else
             {
-                engineAudioSource.volume = Mathf.Clamp01(0.4f + Mathf.Clamp01(_carController.Wheels[2].motorTorque / 800 * _carController.Kph / 100));
-                engineAudioSource.pitch =
-                    0.4f + Mathf.Clamp01(_carController.Wheels[2].motorTorque / 800 * _carController.Kph / 100);
+                const int maxKph = 120;
+                const float minVolumePitch = 0.6f;
+                
+                var volumePitch = Mathf.Clamp01(_carController.Wheels[2].motorTorque / _carController.Torque *
+                    _carController.Kph / maxKph);
+
+                engineAudioSource.volume = Mathf.Clamp01(minVolumePitch + volumePitch);
+                engineAudioSource.pitch = minVolumePitch + volumePitch;
+                
                 if (engineAudioSource.clip != accelerationAudioClip)
                 {
                     engineAudioSource.clip = accelerationAudioClip;
@@ -85,20 +95,33 @@ namespace Drive
 
         private void PlayTireScreech()
         {
-            var slips = 0f;
+            var averageSlip = 0f;
             for (var i = 2; i < 4; i++)
             {
                 _carController.Wheels[i].GetGroundHit(out var wheelHit);
-                slips += Mathf.Max(Mathf.Abs(wheelHit.sidewaysSlip), Mathf.Abs(wheelHit.forwardSlip));
+                //Debug.Log("SIDE: " + Mathf.Abs(wheelHit.sidewaysSlip));
+                //Debug.Log("____: " + Mathf.Abs(wheelHit.forwardSlip));
+
+                averageSlip += (Mathf.Abs(wheelHit.sidewaysSlip) + Mathf.Abs(wheelHit.forwardSlip)) / 2;
             }
 
-            slips /= 2;
-
-            if (slips >= SlipThreshold)
+            averageSlip /= 2;
+            
+            const float slipThreshold = 0.4f;
+            const int maxKphForLoudness = 40;
+            
+            const float minRandom = 0.9f;
+            const float maxRandom = 1.1f;
+            
+            const float minPitch = 0.7f;
+            const float maxPitch = 1.2f;
+            
+            if (averageSlip >= slipThreshold)
             {
-                var loudness = slips * Mathf.Clamp01(_carController.Kph / 40) * Random.Range(0.9f, 1.1f);
+                var loudness = averageSlip * Mathf.Clamp01(_carController.Kph / maxKphForLoudness) *
+                               Random.Range(minRandom, maxRandom);
                 tiresAudioSource.volume = loudness;
-                tiresAudioSource.pitch = Mathf.Lerp(0.7f, 1.2f, loudness);
+                tiresAudioSource.pitch = Mathf.Lerp(minPitch, maxPitch, loudness);
             }
             else
             {
