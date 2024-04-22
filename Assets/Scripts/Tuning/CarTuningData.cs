@@ -54,7 +54,7 @@ namespace Tuning
         {
             savedCarTuningData ??= Player.Instance.CarTunings[carId];
             spoilerTuning.ApplyUpgrade(savedCarTuningData.SpoilerTuning.Selected);
-            //selectedCarTuning.Data.WheelTuning.ApplyUpgrade(savedCarTuningData.WheelTuning.Selected);
+            wheelTuning.ApplyUpgrade(savedCarTuningData.WheelTuning.Selected);
             colorTuning.ApplyUpgrade(savedCarTuningData.ColorTuning.Selected);
             
             var selectedImage = savedCarTuningData.ImageTuning.Selected;

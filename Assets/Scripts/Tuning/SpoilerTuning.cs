@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Tuning
 {
     [Serializable]
-    public class SpoilerTuning : TuningGameObject
+    public class SpoilerTuning : Tuning<GameObject>
     {
         public override void ApplyUpgrade(int upgradeIndex)
         {
