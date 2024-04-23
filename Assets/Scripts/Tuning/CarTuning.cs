@@ -9,11 +9,6 @@ namespace Tuning
         [SerializeField] private CarTuningData data;
         private CarController _carController;
         public CarTuningData Data => data;
-    
-        public bool HasTuning<T>(Tuning<T> tuning)
-        {
-            return tuning.PriceObjectPairs.Length > 1;
-        }
 
         private void Awake()
         {

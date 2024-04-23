@@ -124,10 +124,10 @@ namespace Garage
             _selectedCarTuning = carInstance.GetComponent<CarTuning>();
             _savedCarTuningData = Player.Instance.CarTunings[_selectedCarTuning.Data.CarId];
             gameObject.SetActive(true);
-            if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.SpoilerTuning)) spoilerTuningButton.gameObject.SetActive(true);
-            if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.WheelTuning)) wheelTuningButton.gameObject.SetActive(true);
-            if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.ColorTuning)) colorTuningButton.gameObject.SetActive(true);
-            if (_selectedCarTuning.HasTuning(_selectedCarTuning.Data.ImageTuning)) imageTuningButton.gameObject.SetActive(true);
+            if (_selectedCarTuning.Data.SpoilerTuning.HasTuning()) spoilerTuningButton.gameObject.SetActive(true);
+            if (_selectedCarTuning.Data.WheelTuning.HasTuning()) wheelTuningButton.gameObject.SetActive(true);
+            if (_selectedCarTuning.Data.ColorTuning.HasTuning()) colorTuningButton.gameObject.SetActive(true);
+            if (_selectedCarTuning.Data.ImageTuning.HasTuning()) imageTuningButton.gameObject.SetActive(true);
         }
 
         protected override void OnDisable()

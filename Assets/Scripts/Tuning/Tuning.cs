@@ -30,6 +30,11 @@ namespace Tuning
         
             selected = tuning.Selected;
         }
+        
+        public bool HasTuning()
+        {
+            return priceObjectPairs.Length > 1;
+        }
 
         public abstract void ApplyUpgrade(int upgradeIndex);
     }
