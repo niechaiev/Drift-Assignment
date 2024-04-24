@@ -1064,17 +1064,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSteerAngle: 35
   thresholdAngularVelocity: 0.8
-  handbrakeStiffness: 0.33
+  handbrakeStiffness: 0.1
   torque: 800
   driftingTorque: 1500
   handbrakeTorque: 90000
   brakeTorque: 20000
-  addForce: 10000
-  sidewaysFrictionAsymptoteValue: 1
-  smoothFactor: 0.7
-  setExtremumAsymptoteValues: 1.1
-  handbrakeFrictionMultiplier: 1.7
-  handbrakeFrictionMultiplierDivider: 300
+  frontWheelGrip: 1.1
+  allWheelGripFactor: 1.7
   wheels:
   - {fileID: 851983710633791895}
   - {fileID: 1419648805201373357}

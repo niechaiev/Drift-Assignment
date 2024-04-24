@@ -11,14 +11,13 @@ namespace Drive
         [SerializeField] private float maxSteerAngle = 35f;
         [SerializeField] private float thresholdAngularVelocity = 0.8f;
       
-        [SerializeField] private float handbrakeStiffness = 0.33f;
+        [SerializeField] private float handbrakeStiffness = 0.1f;
         
         [SerializeField] private float torque = 800f;
         [SerializeField] private float driftingTorque = 1500f;
         [SerializeField] private float handbrakeTorque = 90000f;
         [SerializeField] private float brakeTorque = 20000f;
         
-        [SerializeField] private float smoothFactor = 0.7f;
         [SerializeField] private float frontWheelGrip = 1.1f;
         [SerializeField] private float allWheelGripFactor = 1.7f;
         
@@ -30,7 +29,6 @@ namespace Drive
         private bool _isDrifting;
         private InputManager _inputManager;
         private float _kph;
-        private TMP_Text _debugText;
 
         public float Kph => _kph;
         public float Torque => torque;
@@ -47,18 +45,20 @@ namespace Drive
         {
             _carRigidbody = GetComponent<Rigidbody>();
             _carRigidbody.centerOfMass = centerOfMass.transform.localPosition;
-            _debugText = GameObject.FindGameObjectWithTag("Debug").GetComponent<TMP_Text>();
         }
 
         private void FixedUpdate()
         {
             const float msToKphRatio = 3.6f;
             _kph = _carRigidbody.velocity.magnitude * msToKphRatio;
+            
+            CheckDrift();
             Move();
             Steer();
-            CheckDrift();
+            
             AdjustTraction();
             Handbrake();
+            
             AnimateWheels();
         }
     
@@ -187,36 +187,10 @@ namespace Drive
 
         private void AdjustTraction()
         {
-            var driftAmount = 0f;
-            
-            for (var i = 2; i < 4; i++)
-            {
-                wheels[i].GetGroundHit(out var wheelHit);
-
-                var steerFraction = wheels[0].steerAngle / maxSteerAngle;
-                
-                if (wheelHit.sidewaysSlip < 0)
-                    driftAmount = (1 - steerFraction) * Mathf.Abs(wheelHit.sidewaysSlip);
-                else if (wheelHit.sidewaysSlip > 0)
-                    driftAmount = (1 + steerFraction) * Mathf.Abs(wheelHit.sidewaysSlip);
-                
-                _debugText.SetText($"sidewayslip: {wheelHit.sidewaysSlip}\n" +
-                                   $"steerFraction: {steerFraction}\n" +
-                                   $"driftAmount: {driftAmount}");
-            }
-            
             var sidewaysFriction = wheels[0].sidewaysFriction;
             var forwardFriction = wheels[0].forwardFriction;
             if (_inputManager.IsHandbrake)
             {
-                var velocity = 0f;
-                var smoothTime = smoothFactor * Time.deltaTime;
-                var allWheelGrip = Mathf.SmoothDamp(forwardFriction.asymptoteValue, driftAmount * allWheelGripFactor,
-                    ref velocity, smoothTime);
-                
-                SetExtremumAsymptoteValues(ref sidewaysFriction, ref forwardFriction, allWheelGrip);
-                ApplyFriction(sidewaysFriction, forwardFriction, 2, 4);
-
                 SetExtremumAsymptoteValues(ref sidewaysFriction, ref forwardFriction, frontWheelGrip);
                 ApplyFriction(sidewaysFriction, forwardFriction, 0, 2);
             }
