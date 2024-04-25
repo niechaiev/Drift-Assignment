@@ -1106,6 +1106,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60e3013e6ec34b4a92bcc1f80361a464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxSteerAngle: 35
+  thresholdAngularVelocity: 0.8
+  handbrakeStiffness: 0.1
+  torque: 800
+  driftingTorque: 1500
+  handbrakeTorque: 90000
+  brakeTorque: 20000
+  frontWheelGrip: 1.1
+  allWheelGripFactor: 1.7
   wheels:
   - {fileID: 1472678341078364655}
   - {fileID: 2413637668169163666}
@@ -1117,10 +1126,6 @@ MonoBehaviour:
   - {fileID: 1745873291780315432}
   - {fileID: 5648856892146103637}
   centerOfMass: {fileID: 6548038664405415491}
-  torque: 800
-  maxSteering: 35
-  handbrakePower: 90000
-  brakePower: 10000
 --- !u!114 &3378154755422346488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,10 +1156,10 @@ MonoBehaviour:
         thumbnail: {fileID: 0}
       - price: 500
         upgrade: {fileID: 1951875902552606310, guid: 9b2661d807d319740ad332bba3f9c181, type: 3}
-        thumbnail: {fileID: 0}
+        thumbnail: {fileID: 21300000, guid: aa885158db5db8d4982037beb24a5611, type: 3}
       - price: 900
         upgrade: {fileID: 484352657842017170, guid: 3bab1051033d36140bcedfeeb79c8554, type: 3}
-        thumbnail: {fileID: 0}
+        thumbnail: {fileID: 21300000, guid: a608da805b2bcca4fa9ce4ec2882d569, type: 3}
       selected: 0
       wheelMeshes: []
     colorTuning:

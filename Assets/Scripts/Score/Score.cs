@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Drive;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using TMPro;
 using UnityEngine;
 
@@ -44,6 +45,7 @@ namespace Score
             base.OnDisable();
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
+            PhotonNetwork.LocalPlayer.SetScore(0);
         }
     }
 

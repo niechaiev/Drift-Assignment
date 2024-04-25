@@ -22,7 +22,6 @@ namespace Level.UI
             });
             leaveButton.onClick.AddListener(() =>
             {
-                PhotonNetwork.LocalPlayer.SetScore(0);
                 PhotonNetwork.Disconnect();
                 SceneManager.LoadScene("Garage");
             });
