@@ -1,6 +1,12 @@
 A casual drifting game. It utilises unity's wheel colliders for car behaviour.
 
-Assets used:
+SDKs used:  
+PUN2 - for multiplayer. Replicates player score, tyre & engine sounds, transform of player cars;  
+Firebase - for save/load player data;  
+IronSource - ad monetization;  
+GameAnalytics - track user progression and resources flow.
+
+Assets used:  
 [Joystick Pack](https://assetstore.unity.com/packages/tools/input-management/joystick-pack-107631),
 [80's Sport Car 1](https://assetstore.unity.com/packages/3d/vehicles/land/80-s-sport-car-1-69324),
 [Cargo Container](https://assetstore.unity.com/packages/3d/props/industrial/cargo-container-45175),
