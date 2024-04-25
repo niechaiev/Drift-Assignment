@@ -6,3 +6,11 @@ Assets used:
 [Cargo Container](https://assetstore.unity.com/packages/3d/props/industrial/cargo-container-45175),
 [Ukraine free cars](https://assetstore.unity.com/packages/3d/vehicles/ukraine-free-cars-191822),
 [PUN 2 - FREE](https://assetstore.unity.com/packages/tools/network/pun-2-free-119922).
+
+
+Screenshots:
+![image](https://github.com/niechaiev/Drift-Assignment/assets/34244452/ff029b95-e7b5-43f7-b694-761f39c1c707)
+![image](https://github.com/niechaiev/Drift-Assignment/assets/34244452/43ea6199-319a-447a-a01c-4deb74c491b4)
+![image](https://github.com/niechaiev/Drift-Assignment/assets/34244452/7ff5d3a4-bc7e-4952-a1dd-e2a7f0f4fc8e)
+
+
