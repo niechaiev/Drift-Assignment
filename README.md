@@ -8,6 +8,14 @@ Assets used:
 [PUN 2 - FREE](https://assetstore.unity.com/packages/tools/network/pun-2-free-119922).
 
 
+<a href="https://www.youtube.com/watch?v=DQ16llxaJUY" target="_blank">
+Youtube link:
+</a>
+<br>
+<a href="https://www.youtube.com/watch?v=DQ16llxaJUY" target="_blank">
+ <img src="https://github.com/niechaiev/Drift-Assignment/assets/34244452/50e52b86-7b9c-45c3-8591-6adacf602ca5" alt="Watch the video" width="320" height="180" border="10" />
+</a>
+
 Screenshots:
 ![image](https://github.com/niechaiev/Drift-Assignment/assets/34244452/ff029b95-e7b5-43f7-b694-761f39c1c707)
 ![image](https://github.com/niechaiev/Drift-Assignment/assets/34244452/43ea6199-319a-447a-a01c-4deb74c491b4)
