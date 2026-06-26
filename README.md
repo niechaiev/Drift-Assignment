@@ -1,4 +1,4 @@
-A casual drifting game. It utilises unity's wheel colliders for car behaviour.
+A casual multiplayer drifting game. It utilises unity's wheel colliders for car behaviour.
 
 SDKs used:  
 PUN2 - for multiplayer. Replicates player score, tyre & engine sounds, transform of player cars;  
